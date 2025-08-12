@@ -22,15 +22,23 @@
             </div>
 
             <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+            </div>
+
+            <div class="form-group">
                 <label for="password">Mật khẩu</label>
                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
             </div>
-
+            
             <div class="form-group">
                 <label for="password_confirmation">Xác nhận mật khẩu</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" required>
             </div>
-
+            <div class="form-group">
+                <label for="phone">Số điện thoại (tùy chọn)</label>
+                <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại">
+            </div>
             <button type="submit">Đăng ký</button>
             <p class="login-link">Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập ngay</a></p>
         </form>

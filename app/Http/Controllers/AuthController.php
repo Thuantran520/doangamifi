@@ -27,11 +27,32 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
-            'phone' => $data['phone'],
+            'phone' => $data['phone'] ?? null,
         ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Đăng ký thành công!',
+            'token' => $token,
+            'user' => $user
+        ], 201);
+
+        // Thong bao trung
+        if (User::where('email', $data['email'])->exists()) {
+            return response()->json([
+                'message' => 'Email đã tồn tại.'
+            ], 409); // 409 Conflict
+        }
+        elseif (User::where('username', $data['username'])->exists()) {
+            return response()->json([
+                'message' => 'Username đã tồn tại.'
+            ], 409); // 409 Conflict
+        }
 
         Auth::login($user);
         return redirect('/dashboard');
+    
     }
 
     public function showLoginForm() {
@@ -49,8 +70,22 @@ class AuthController extends Controller
             return redirect('/dashboard');
         }
 
-        return back()->withErrors(['email' => 'Sai email hoặc mật khẩu']);
+        $user = User::where('email', $request->email)->first();
+         if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Email hoặc mật khẩu không chính xác.'
+            ], 401); // 401 Unauthorized
+        }
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Đăng nhập thành công!',
+            'token' => $token,
+            'user' => $user
+        ]);
     }
+
 
     public function logout(Request $request) {
         Auth::logout();
