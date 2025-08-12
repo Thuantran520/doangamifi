@@ -27,6 +27,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
+<<<<<<< HEAD
             'phone' => $data['phone'] ?? null,
         ]);
 
@@ -53,6 +54,13 @@ class AuthController extends Controller
         Auth::login($user);
         return redirect('/dashboard');
     
+=======
+            'phone' => $data['phone'],
+        ]);
+
+        Auth::login($user);
+        return redirect('/dashboard');
+>>>>>>> origin/main
     }
 
     public function showLoginForm() {
@@ -70,6 +78,7 @@ class AuthController extends Controller
             return redirect('/dashboard');
         }
 
+<<<<<<< HEAD
         $user = User::where('email', $request->email)->first();
          if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -87,6 +96,11 @@ class AuthController extends Controller
     }
 
 
+=======
+        return back()->withErrors(['email' => 'Sai email hoặc mật khẩu']);
+    }
+
+>>>>>>> origin/main
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();

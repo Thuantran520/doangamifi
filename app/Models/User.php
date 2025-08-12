@@ -6,12 +6,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+<<<<<<< HEAD
 use Laravel\Sanctum\HasApiTokens;
+=======
+>>>>>>> origin/main
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
+<<<<<<< HEAD
     use HasApiTokens, HasFactory, Notifiable;
+=======
+    use HasFactory, Notifiable;
+>>>>>>> origin/main
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +52,10 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+<<<<<<< HEAD
+=======
+            'email_verified_at' => 'datetime',
+>>>>>>> origin/main
             'password' => 'hashed',
         ];
     }
