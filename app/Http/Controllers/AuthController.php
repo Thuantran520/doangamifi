@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -13,64 +15,55 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request) {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'username' => 'required|string|max:100|unique:users,username',
-            'phone' => 'nullable|string|max:15',
-        ]);
+    public function register(\App\Http\Requests\RegisterRequest $request) {
+        // 1) RULES + MESSAGES (đặt đúng chỗ)
+        $data = $request->validated();
 
+        // 2) Tạo user khi đã qua validate
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => $data['password'],
             'username' => $data['username'],
-<<<<<<< HEAD
-            'phone' => $data['phone'] ?? null,
+            'phone'    => $data['phone'] ?? null,
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Đăng ký thành công!',
-            'token' => $token,
-            'user' => $user
-        ], 201);
-
-        // Thong bao trung
-        if (User::where('email', $data['email'])->exists()) {
+        // 3) API: trả token; WEB: đăng nhập + chuyển trang
+        if ($request->expectsJson() || $request->is('api/*')) {
+            $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
-                'message' => 'Email đã tồn tại.'
-            ], 409); // 409 Conflict
-        }
-        elseif (User::where('username', $data['username'])->exists()) {
-            return response()->json([
-                'message' => 'Username đã tồn tại.'
-            ], 409); // 409 Conflict
+                'message' => 'Đăng ký thành công!',
+                'token'   => $token,
+                'user'    => $user,
+            ], 201);
         }
 
         Auth::login($user);
-        return redirect('/dashboard');
-    
-=======
-            'phone' => $data['phone'],
-        ]);
-
-        Auth::login($user);
-        return redirect('/dashboard');
->>>>>>> origin/main
+        return redirect('/login');
     }
 
-    public function showLoginForm() {
-        return view('auth.login');
-    }
+    public function showLoginForm() { return view('auth.login'); }
 
-    public function login(Request $request) {
+    public function login(\App\Http\Requests\LoginRequest $request) {
+        if ($request->expectsJson() || $request->is('api/*')) {
+            $payload = $request->validated();
+
+            $user = User::where('email', $payload['email'])->first();
+            if (!$user || !Hash::check($payload['password'], $user->password)) {
+               return response()->json(['message' => 'Email hoặc mật khẩu không chính xác.'], 401);
+            }
+
+            $token = $user->createToken('api-token')->plainTextToken;
+            return response()->json([
+                'message' => 'Đăng nhập thành công!',
+                'token'   => $token,
+                'user'    => $user,
+            ]);
+        }
+
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
@@ -78,29 +71,9 @@ class AuthController extends Controller
             return redirect('/dashboard');
         }
 
-<<<<<<< HEAD
-        $user = User::where('email', $request->email)->first();
-         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Email hoặc mật khẩu không chính xác.'
-            ], 401); // 401 Unauthorized
-        }
-
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Đăng nhập thành công!',
-            'token' => $token,
-            'user' => $user
-        ]);
-    }
-
-
-=======
         return back()->withErrors(['email' => 'Sai email hoặc mật khẩu']);
     }
 
->>>>>>> origin/main
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();

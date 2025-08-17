@@ -24,9 +24,11 @@ class RegisterRequest extends FormRequest
     {
         // Di chuyển các quy tắc validate từ controller vào đây
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'username' => 'required|string|max:100|unique:users,username',
+            'phone'    => 'nullable|string|max:15|unique:users,phone',
         ];
     }
 
@@ -39,10 +41,13 @@ class RegisterRequest extends FormRequest
     {
         // Thêm dòng này để tùy chỉnh thông báo lỗi
         return [
-            'email.unique' => 'Địa chỉ email này đã được sử dụng. Vui lòng chọn một email khác.',
-            'email.required' => 'Vui lòng nhập địa chỉ email.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+           'email.unique'      => 'Email đã được sử dụng.',
+            'username.unique'   => 'Tên đăng nhập đã được sử dụng.',
+            'phone.unique'      => 'Số điện thoại đã được sử dụng.',
+            'password.min'      => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.confirmed'=> 'Mật khẩu xác nhận không khớp.',
+            'name.required'     => 'Tên không được bỏ trống.',
+            'password.unique'   => 'Mật khẩu đã được sử dụng.'
         ];
     }
 }
