@@ -39,8 +39,11 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        return redirect('/login');
+        $request->session()->regenerate();
+
+        return redirect()->intended('/dashboard')->with('success', 'Đăng nhập thành công!');
     }
+
 
     public function showLoginForm() { return view('auth.login'); }
 
@@ -61,18 +64,18 @@ class AuthController extends Controller
             ]);
         }
 
-        $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::attempt($credentials)) {
+        $credentials = $request->validated();
+        if (Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect('/dashboard');
-        }
+            $user = request()->user();
 
+            if(($user->role ?? null) === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
+            }
+            return redirect()->intended('/dashboard')->with('success', 'Đăng nhập thành công!');
+        }
         return back()->withErrors(['email' => 'Sai email hoặc mật khẩu']);
-    }
+        }
 
     public function logout(Request $request) {
         Auth::logout();

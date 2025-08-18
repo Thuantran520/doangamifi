@@ -2,17 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\UserDashboardController;
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('launcher');
 });
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+// ĐÚNG (tên rõ ràng, Laravel khuyên dùng)
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-
+// TEST
 Route::get('/test-insert', function () {
     $u = \App\Models\User::create([
         'name' => 'Demo',
@@ -23,3 +28,26 @@ Route::get('/test-insert', function () {
     ]);
     return $u;
 });
+
+// routes/web.php (tạm test)
+Route::get('/whoami', fn() => response()->json([
+  'id'   => auth()->id(),
+  'user' => auth()->user()?->only(['id','email','role']),
+]));
+
+
+// Cho admin
+Route::prefix('admin')->middleware(['auth', 'can:admin'])->group(function () {
+
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+});
+
+// Cho hoc sinh
+
+Route::middleware('auth')->group(function (){
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user');
+});
+
+// Đăng xuất
+Route::middleware('auth')->post('/logout', [AuthController::class, 'logout'])->name('logout');
+

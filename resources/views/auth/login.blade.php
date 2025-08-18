@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="container">
-    <form id="loginForm" class="form-box active" method="POST" action="{{ route('login.post') }}">
+    <form id="loginForm" class="form-box active" method="POST" action="{{ route('login') }}">
         @csrf
         <h2 class="form-title">Đăng nhập tài khoản</h2>
 
@@ -19,7 +19,7 @@
         <button type="submit" class="btn-login">Đăng nhập</button>
         <p class="switch-text">
             Bạn chưa có tài khoản?
-            <a href="{{ route('register') }}" class="switch-link">Đăng ký</a>
+            <a href="{{ route('register.form') }}" class="switch-link">Đăng ký</a>
         </p>
     </form>
   </div>

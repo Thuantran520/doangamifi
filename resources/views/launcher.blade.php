@@ -13,7 +13,7 @@
     </div>
    <div class="buttons">
   <a href="{{ route('login') }}" class="btn-login">Đăng nhập</a>
-  <a href="{{ route('register') }}" class="btn-login">Đăng ký</a>
+  <a href="{{ route('register.form') }}" class="btn-login">Đăng ký</a>
 </div>
   </header>
   <main class="content">
