@@ -24,14 +24,16 @@
    ```bash
    git clone <link-repo>
    cd doangamifi
+
 2. Cài đặt dependencies:
     ```bash
     composer install
     npm install && npm run dev
+
 3. Tạo file .env:
     ```bash
     cp .env.example .env
-Sau đó chỉnh thông tin database (MySQL).
+    Sau đó chỉnh thông tin database (MySQL).
 4. Generate key:
     ```bash
     php artisan key:generate
