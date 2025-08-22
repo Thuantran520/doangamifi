@@ -42,20 +42,19 @@
     php artisan migrate --seed
 
 ## Cấu trúc thư mục chính
-    ```bash
-        app/
-        ├── Http/
-        │   ├── Controllers/
-        │   │   ├── AuthController.php
-        │   │   ├── UserDashboardController.php
-        │   │   └── Admin/
-        │   │       └── DashboardController.php
-        │   └── Requests/
-        ├── Models/
-        │   └── User.php
-        routes/
-        ├── web.php     # Route cho Web
-        └── api.php     # Route cho API
+    app/
+    ├── Http/
+    │   ├── Controllers/
+    │   │   ├── AuthController.php
+    │   │   ├── UserDashboardController.php
+    │   │   └── Admin/
+    │   │       └── DashboardController.php
+    │   └── Requests/
+    ├── Models/
+    │   └── User.php
+    routes/
+    ├── web.php     # Route cho Web
+    └── api.php     # Route cho API
 
 ## API Endpoint chính
 * Auth
