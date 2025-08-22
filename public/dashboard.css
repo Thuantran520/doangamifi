@@ -1,0 +1,132 @@
+/* Reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4faff; /* nền xanh biển nhạt */
+  color: #333;
+}
+
+/* Nút quay về ở góc trái */
+.back-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  background: #2196f3;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #1976d2;
+}
+
+/* Khung chính */
+.profile-container {
+  width: 400px;
+  margin: 80px auto;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  text-align: center;
+}
+
+/* Avatar */
+.avatar-section {
+  margin-bottom: 25px;
+}
+
+.avatar-section img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 3px solid #2196f3;
+  object-fit: cover;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+/* Thông tin */
+.info-section {
+  text-align: left;
+}
+
+.info-section p {
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+/* Input khi chỉnh sửa */
+#editSection {
+  margin: 20px 0;
+}
+
+#editSection label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+#editSection input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2196f3;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Các nút */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-group button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Màu cho các nút */
+#editBtn {
+  background: #2196f3;
+  color: white;
+}
+
+#editBtn:hover {
+  background: #1976d2;
+}
+
+#saveBtn {
+  background: #4caf50;
+  color: white;
+}
+
+#saveBtn:hover {
+  background: #388e3c;
+}
+
+#cancelBtn {
+  background: #f44336;
+  color: white;
+}
+
+#cancelBtn:hover {
+  background: #d32f2f;
+}
+
+/* Ẩn */
+.hidden {
+  display: none;
+}

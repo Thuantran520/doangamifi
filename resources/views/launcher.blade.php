@@ -4,19 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gamification</title>
-  <link rel="stylesheet" href="{{ asset('launcher.css') }}">
+  <link rel="stylesheet" href="{{asset('launcher.css')}}">
 </head>
 <body>
-  <header class="topbar">
-    <div class="logo">
-      <span>&lt;&gt;</span> <strong>Gamification</strong> <span>&lt;/&gt;</span>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">Gamification</div>
+    <nav class="nav-links">
+      @auth
+      <a href="{{ route('lesson') }}">Nội dung bài học</a>
+      <a href="#">Các bài thực hành của tôi</a>
+      @endauth
+      @guest
+        <h3> Vui lòng đăng nhập để tiếp tục </h3>
+      @endguest
+    </nav>
+    <div class="user-actions">
+      @guest
+      <button class="auth-btn" onclick="window.location.href='{{route('login.form')}}'">Đăng nhập</button>
+      <button class="auth-btn" onclick="window.location.href='{{route('register.form')}}'">Đăng ký</button>
+      @else
+       <span class="username">Xin chào, {{ Auth::user()->name }}</span>
+       <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+          @csrf
+          <button type="submit" class="auth-btn">Đăng xuất</button>
+        </form>
+      <div class="user-menu">
+        <button id="menuToggle" class="menu-btn">☰</button>
+        <ul id="dropdownMenu" class="dropdown hidden">
+          <li>
+            @if(Auth::check()&& Auth::user()-> role=== 'admin')
+              <a href="{{route('admin.dashboard')}}">Quản lý người dùng</a>
+            @else
+              <a href="{{route('dashboard')}}">Hồ sơ cá nhân</a>
+            @endif
+          </li>
+          <li><a href="#">Điểm số</a></li>
+          <li><a href="#">Huy hiệu</a></li>
+          <li><a href="#">Bảng xếp hạng</a></li>
+          <li><a href="#">Nhiệm vụ hàng ngày/tuần</a></li>
+          <li><a href="#">Tiến trình học</a></li>
+        </ul>
+      </div>
+    @endguest
     </div>
-   <div class="buttons">
-  <a href="{{ route('login') }}" class="btn-login">Đăng nhập</a>
-  <a href="{{ route('register.form') }}" class="btn-login">Đăng ký</a>
-</div>
   </header>
+
+  <!-- Nội dung chính -->
   <main class="content">
+    <h1>Chào mừng đến với Gamification</h1>
+    <p>Đây là phần nội dung bài học. Bạn có thể thêm chi tiết tại đây.</p>
   </main>
+
+  <script src="{{asset('launcher.js')}}"></script>
 </body>
 </html>

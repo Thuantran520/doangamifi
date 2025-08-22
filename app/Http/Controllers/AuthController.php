@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Models\Lesson;
 
 class AuthController extends Controller
 {
@@ -40,8 +41,7 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
-
-        return redirect()->intended('/dashboard')->with('success', 'Đăng nhập thành công!');
+        return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
     }
 
 
@@ -70,9 +70,9 @@ class AuthController extends Controller
             $user = request()->user();
 
             if(($user->role ?? null) === 'admin') {
-                return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
+                return redirect()-> route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
             }
-            return redirect()->intended('/dashboard')->with('success', 'Đăng nhập thành công!');
+            return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
         }
         return back()->withErrors(['email' => 'Sai email hoặc mật khẩu']);
         }
@@ -81,6 +81,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/');
     }
 }

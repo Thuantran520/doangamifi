@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\UserDashboardController;
-
+use App\Http\Controllers\LessonController;
 
 Route::get('/', function () {
     return view('launcher');
-});
+}) -> name('launcher');
+
+Route::get('/launcher', function () {
+    return view('launcher');
+}) -> name('launcher');
 
 // ĐÚNG (tên rõ ràng, Laravel khuyên dùng)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
@@ -45,9 +49,12 @@ Route::prefix('admin')->middleware(['auth', 'can:admin'])->group(function () {
 // Cho hoc sinh
 
 Route::middleware('auth')->group(function (){
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 });
 
 // Đăng xuất
 Route::middleware('auth')->post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::post('/user/update', [UserDashboardController::class, 'update'])->name('user.update');
+
+Route::get('/lessons', [LessonController::class, 'index'])->name('lesson');

@@ -3,26 +3,20 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\AuthController; // không cần alias nữa
 
-Route::get('/user', function (Request $request) {
+// Lấy thông tin user (nếu đã đăng nhập qua Sanctum)
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+});
 
+// Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-
-
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    // Dòng này tự tạo các endpoint GET, POST, PUT, DELETE cho 'tasks'
+    
+    // Tasks CRUD (GET, POST, PUT/PATCH, DELETE)
     Route::apiResource('tasks', TaskController::class);
 });
