@@ -24,14 +24,16 @@
    ```bash
    git clone <link-repo>
    cd doangamifi
+
 2. Cài đặt dependencies:
     ```bash
     composer install
     npm install && npm run dev
+
 3. Tạo file .env:
     ```bash
-    cp .env.example .env
-Sau đó chỉnh thông tin database (MySQL).
+        cp .env.example .env
+    Sau đó chỉnh thông tin database (MySQL).
 4. Generate key:
     ```bash
     php artisan key:generate
@@ -41,19 +43,19 @@ Sau đó chỉnh thông tin database (MySQL).
 
 ## Cấu trúc thư mục chính
     ```bash
-    app/
-    ├── Http/
-    │   ├── Controllers/
-    │   │   ├── AuthController.php
-    │   │   ├── UserDashboardController.php
-    │   │   └── Admin/
-    │   │       └── DashboardController.php
-    │   └── Requests/
-    ├── Models/
-    │   └── User.php
-    routes/
-    ├── web.php     # Route cho Web
-    └── api.php     # Route cho API
+        app/
+        ├── Http/
+        │   ├── Controllers/
+        │   │   ├── AuthController.php
+        │   │   ├── UserDashboardController.php
+        │   │   └── Admin/
+        │   │       └── DashboardController.php
+        │   └── Requests/
+        ├── Models/
+        │   └── User.php
+        routes/
+        ├── web.php     # Route cho Web
+        └── api.php     # Route cho API
 
 ## API Endpoint chính
 * Auth
@@ -75,5 +77,5 @@ Sau đó chỉnh thông tin database (MySQL).
 
 ---
 ## 📜 License
-Đây là dự án mang mục đích học tập. Không mang mục đích thương mại
+Đây là dự án mang mục đích học tập. Không mang mục đích thương mại.
 
