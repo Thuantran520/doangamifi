@@ -25,55 +25,51 @@
    git clone <link-repo>
    cd doangamifi
 2. Cài đặt dependencies:
+    ```bash
     composer install
     npm install && npm run dev
 3. Tạo file .env:
+    ```bash
     cp .env.example .env
 Sau đó chỉnh thông tin database (MySQL).
 4. Generate key:
+    ```bash
     php artisan key:generate
 5. Chạy migrate + seed:
+    ```bash
     php artisan migrate --seed
 
 ## Cấu trúc thư mục chính
-app/
- ├── Http/
- │   ├── Controllers/
- │   │   ├── AuthController.php
- │   │   ├── UserDashboardController.php
- │   │   └── Admin/
- │   │       └── DashboardController.php
- │   └── Requests/
- ├── Models/
- │   └── User.php
-routes/
- ├── web.php     # Route cho Web
- └── api.php     # Route cho API
+    ```bash
+    app/
+    ├── Http/
+    │   ├── Controllers/
+    │   │   ├── AuthController.php
+    │   │   ├── UserDashboardController.php
+    │   │   └── Admin/
+    │   │       └── DashboardController.php
+    │   └── Requests/
+    ├── Models/
+    │   └── User.php
+    routes/
+    ├── web.php     # Route cho Web
+    └── api.php     # Route cho API
 
 ## API Endpoint chính
 * Auth
-
-- POST /api/register – Đăng ký
-
-- POST /api/login – Đăng nhập
-
-- POST /api/logout – Đăng xuất
-
-- GET /api/user – Thông tin user đang đăng nhập
-
+    - POST /api/register – Đăng ký
+    - POST /api/login – Đăng nhập
+    - POST /api/logout – Đăng xuất
+    - GET /api/user – Thông tin user đang đăng nhập
 * Tasks
-
-- GET /api/tasks
-
-- POST /api/tasks
-
-- PUT /api/tasks/{id}
-
-- DELETE /api/tasks/{id}
-
+    - GET /api/tasks
+    - POST /api/tasks
+    - PUT /api/tasks/{id}
+    - DELETE /api/tasks/{id}
 
 ## Chạy project
 * Chạy server Laravel:
+    ```bash
     php artisan serve
 * Truy cập: http://127.0.0.1:8000
 
