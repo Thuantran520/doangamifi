@@ -32,7 +32,7 @@
 
 3. Tạo file .env:
     ```bash
-    cp .env.example .env
+        cp .env.example .env
     Sau đó chỉnh thông tin database (MySQL).
 4. Generate key:
     ```bash
@@ -42,7 +42,6 @@
     php artisan migrate --seed
 
 ## Cấu trúc thư mục chính
-    ```bash
     app/
     ├── Http/
     │   ├── Controllers/
@@ -77,5 +76,5 @@
 
 ---
 ## 📜 License
-Đây là dự án mang mục đích học tập. Không mang mục đích thương mại
+Đây là dự án mang mục đích học tập. Không mang mục đích thương mại.
 

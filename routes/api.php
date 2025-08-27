@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // Tasks CRUD (GET, POST, PUT/PATCH, DELETE)
     Route::apiResource('tasks', TaskController::class);
 });
+
+Route::post('/verify-email', [AuthController::class, 'verifyEmail']);

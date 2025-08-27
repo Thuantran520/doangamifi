@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\Lesson;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -17,16 +18,17 @@ class AuthController extends Controller
     }
 
     public function register(\App\Http\Requests\RegisterRequest $request) {
-        // 1) RULES + MESSAGES (đặt đúng chỗ)
         $data = $request->validated();
 
-        // 2) Tạo user khi đã qua validate
+        //$verificationCode = Str::random(5);
+
         $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
-            'password' => $data['password'],
+            'password' => bcrypt($data['password']),
             'username' => $data['username'],
             'phone'    => $data['phone'] ?? null,
+            //'email_verification_code' => $verificationCode,
         ]);
 
         // 3) API: trả token; WEB: đăng nhập + chuyển trang

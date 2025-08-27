@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\LessonController;
 
+
 Route::get('/', function () {
     return view('launcher');
 }) -> name('launcher');
@@ -20,6 +21,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+
+//Route::post('/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
 
 // TEST
 Route::get('/test-insert', function () {
