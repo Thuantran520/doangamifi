@@ -1,33 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách bài học</title>
+    <title>Chọn loại bài học</title>
+    <link rel="stylesheet" href="{{ asset('Adminlesson/Adminlesson.css') }}">
     <link rel="stylesheet" href="{{ asset('lesson.css') }}">
+    <!-- Nếu có JS dùng chung, thêm ở cuối file -->
 </head>
 <body>
-    <button class="back-btn" onclick="window.history.back()">← Quay lại</button>
-    <div class="lesson-header">
-        <h1>Danh sách bài học</h1>
-    </div>
-    <div class="lesson-list">
-        @foreach($lessons as $lesson)
-            <div class="lesson-item accordion">
-                <div class="accordion-header">
-                    <h2>{{ $lesson->title }}</h2>
-                    <div class="lesson-topic">{{ $lesson->topic ?? 'N/A' }}</div>
-                </div>
-                <div class="accordion-content" style="display:none;">
-                    <p>{{ $lesson->content ?: 'Chưa có nội dung cho bài học này.' }}</p>
-                    @if(!empty($lesson->example))
-                        <div class="lesson-meta">
-                            <span><strong>Ví dụ:</strong> {{ $lesson->example }}</span>
-                        </div>
-                    @endif
-                </div>
+    <a href="{{ route('launcher') }}" class="btn-back-home">Quay lại trang chủ</a>
+    <div class="container">
+        <h1 class="lesson-title">Chọn loại bài học</h1>
+        <div class="lesson-category-list">
+            <div class="lesson-category-item">
+                <h2>Python</h2>
+                <a href="{{ route('python') }}" class="btn-lesson">Xem bài học Python</a>
             </div>
-        @endforeach
+            <div class="lesson-category-item">
+                <h2>C++</h2>
+                <a href="{{ route('cpp') }}" class="btn-lesson">Xem bài học C++</a>
+            </div>
+            <div class="lesson-category-item">
+                <h2>Javascript</h2>
+                <a href="{{ route('javascript') }}" class="btn-lesson">Xem bài học Javascript</a>
+            </div>
+        </div>
     </div>
-    <script src="{{ asset('lesson.js') }}"></script>
+    <!-- hoặc dùng chung với admin: <script src="{{ asset('Adminlesson/Adminlesson.js') }}"></script> -->
 </body>
 </html>

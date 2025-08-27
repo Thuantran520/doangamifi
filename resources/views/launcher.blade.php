@@ -13,7 +13,8 @@
     <nav class="nav-links">
       @auth
       <a href="{{ route('lesson') }}">Nội dung bài học</a>
-      <a href="#">Các bài thực hành của tôi</a>
+      <a href="{{ route('practice') }}">Các bài thực hành của tôi</a>
+      <a href="{{ route('quiz.index') }}">Bài trắc nghiệm</a>
       @endauth
       @guest
         <h3> Vui lòng đăng nhập để tiếp tục </h3>
@@ -34,16 +35,11 @@
         <ul id="dropdownMenu" class="dropdown hidden">
           <li>
             @if(Auth::check()&& Auth::user()-> role=== 'admin')
-              <a href="{{route('admin.dashboard')}}">Quản lý người dùng</a>
+              <a href="{{route('admin.launcher')}}">Quản lý người dùng</a>
             @else
               <a href="{{route('dashboard')}}">Hồ sơ cá nhân</a>
             @endif
           </li>
-          <li><a href="#">Điểm số</a></li>
-          <li><a href="#">Huy hiệu</a></li>
-          <li><a href="#">Bảng xếp hạng</a></li>
-          <li><a href="#">Nhiệm vụ hàng ngày/tuần</a></li>
-          <li><a href="#">Tiến trình học</a></li>
         </ul>
       </div>
     @endguest

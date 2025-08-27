@@ -14,4 +14,15 @@ class DashboardController extends Controller
         $users = User::all();
         return view('admin.dashboard', compact('users'));
     }
+    public function launcher()
+    {
+        $python = \App\Models\Python::all();
+        return view('admin.launcher', compact('python'));
+    }
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('success', 'Xóa người dùng thành công!');
+    }
 }

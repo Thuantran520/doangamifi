@@ -41,4 +41,22 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  document.querySelectorAll(".lesson-item").forEach((item) => {
+    const key = item.dataset.lesson;
+    const btn = item.querySelector(".btn-viewed");
+    if (btn && localStorage.getItem("viewed-" + key)) {
+      btn.classList.add("viewed");
+      btn.textContent = "✔ Đã xem";
+      item.classList.add("lesson-viewed");
+    }
+    if (btn) {
+      btn.addEventListener("click", function () {
+        localStorage.setItem("viewed-" + key, "1");
+        btn.classList.add("viewed");
+        btn.textContent = "✔ Đã xem";
+        item.classList.add("lesson-viewed");
+      });
+    }
+  });
 });

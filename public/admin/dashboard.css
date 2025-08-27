@@ -50,20 +50,25 @@ img {
 /* Nút quay về ở góc trái */
 .back-btn {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  padding: 8px 15px;
+  top: 18px;
+  left: 18px;
+  background: #e5e7eb;
+  color: #2563eb;
   border: none;
   border-radius: 6px;
-  background: #2196f3;
-  color: white;
-  font-size: 14px;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  transition: background 0.2s;
   cursor: pointer;
-  transition: background 0.3s;
+  z-index: 10;
 }
 
 .back-btn:hover {
-  background: #1976d2;
+  background: #6366f1;
+  color: #fff;
 }
 
 @media (max-width: 600px) {

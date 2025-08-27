@@ -1,13 +1,8 @@
 # Đồ án Quản lý Bài tập / Học tập (Laravel)
 
 ## 📌 Giới thiệu
-Đây là một ứng dụng web được xây dựng bằng **Laravel**, kết hợp cả **Web** và **API**.  
-Ứng dụng hỗ trợ:
-- Đăng ký, đăng nhập, đăng xuất (Auth bằng Laravel Sanctum).
-- Phân quyền người dùng (Admin, User).
-- Quản lý bài học (Lesson).
-- Quản lý công việc (Task API).
-- Giao diện Web cho học sinh và Admin.
+Ứng dụng web quản lý bài học, bài tập, quiz cho học sinh và admin, xây dựng bằng **Laravel**.  
+Hỗ trợ cả giao diện Web và API, phân quyền người dùng, nhập liệu hàng loạt, và quản lý đa ngôn ngữ (Python, C++, Javascript).
 
 ---
 
@@ -19,62 +14,119 @@
 
 ---
 
-## ⚙️ Cài đặt
-1. Clone project:
-   ```bash
-   git clone <link-repo>
-   cd doangamifi
+## ⚙️ Cài đặt & Khởi động
 
-2. Cài đặt dependencies:
+1. **Clone project:**
+    ```bash
+    git clone <link-repo>
+    cd doangamifi
+    ```
+
+2. **Cài đặt dependencies:**
     ```bash
     composer install
     npm install && npm run dev
+    ```
 
-3. Tạo file .env:
+3. **Tạo file .env & cấu hình database:**
     ```bash
-        cp .env.example .env
-    Sau đó chỉnh thông tin database (MySQL).
-4. Generate key:
+    cp .env.example .env
+    ```
+    - Chỉnh sửa thông tin kết nối database trong file `.env`.
+
+4. **Sinh key ứng dụng:**
     ```bash
     php artisan key:generate
-5. Chạy migrate + seed:
+    ```
+
+5. **Chạy migrate & seed dữ liệu mẫu:**
     ```bash
     php artisan migrate --seed
+    ```
 
-## Cấu trúc thư mục chính
-    app/
-    ├── Http/
-    │   ├── Controllers/
-    │   │   ├── AuthController.php
-    │   │   ├── UserDashboardController.php
-    │   │   └── Admin/
-    │   │       └── DashboardController.php
-    │   └── Requests/
-    ├── Models/
-    │   └── User.php
-    routes/
-    ├── web.php     # Route cho Web
-    └── api.php     # Route cho API
-
-## API Endpoint chính
-* Auth
-    - POST /api/register – Đăng ký
-    - POST /api/login – Đăng nhập
-    - POST /api/logout – Đăng xuất
-    - GET /api/user – Thông tin user đang đăng nhập
-* Tasks
-    - GET /api/tasks
-    - POST /api/tasks
-    - PUT /api/tasks/{id}
-    - DELETE /api/tasks/{id}
-
-## Chạy project
-* Chạy server Laravel:
+6. **Khởi động server:**
     ```bash
     php artisan serve
-* Truy cập: http://127.0.0.1:8000
+    ```
+    - Truy cập: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
+
+## 🗂️ Cấu trúc thư mục chính
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php
+│   │   ├── UserDashboardController.php
+│   │   └── Admin/
+│   │       └── DashboardController.php
+│   └── Requests/
+├── Models/
+│   ├── User.php
+│   ├── Task.php
+│   ├── Python.php
+│   ├── Cpp.php
+│   └── Javascript.php
+routes/
+├── web.php     # Route cho Web
+└── api.php     # Route cho API
+resources/
+├── views/      # Blade templates cho giao diện
+└── css, js     # Frontend assets
+```
+
+---
+
+## 🧩 Tính năng nổi bật
+
+- Đăng ký, đăng nhập, đăng xuất (Laravel Sanctum)
+- Phân quyền: Admin & User
+- Quản lý bài học đa ngôn ngữ: Python, C++, Javascript
+- Quản lý công việc (Task API)
+- Quản lý quiz, câu hỏi trắc nghiệm
+- Nhập liệu hàng loạt qua Excel/CSV
+- Giao diện hiện đại, responsive cho học sinh & admin
+- Trang lỗi tùy chỉnh, bảo mật session
+
+---
+
+## 🔗 API Endpoint chính
+
+**Auth**
+- `POST /api/register` – Đăng ký
+- `POST /api/login` – Đăng nhập
+- `POST /api/logout` – Đăng xuất
+- `GET /api/user` – Thông tin user đang đăng nhập
+
+**Tasks**
+- `GET /api/tasks`
+- `POST /api/tasks`
+- `PUT /api/tasks/{id}`
+- `DELETE /api/tasks/{id}`
+
+**Lessons & Quiz**
+- `GET /api/lessons/{type}` – Lấy danh sách bài học theo loại
+- `POST /api/lessons/{type}` – Thêm bài học
+- `GET /api/quizzes` – Lấy danh sách quiz
+- `POST /api/quizzes` – Thêm quiz
+
+---
+
+## 💡 Hướng dẫn sử dụng
+
+- Truy cập trang chủ để chọn loại bài học hoặc quản lý (admin).
+- Admin có thể thêm/sửa/xóa bài học, quiz, và nhập liệu hàng loạt.
+- Người dùng có thể xem bài học, làm quiz, và theo dõi tiến trình.
+
+---
+
 ## 📜 License
-Đây là dự án mang mục đích học tập. Không mang mục đích thương mại.
+
+Dự án phục vụ mục đích học tập, phi thương mại.
+
+---
+
+**Mọi thắc mắc hoặc đóng góp, vui lòng liên hệ hoặc tạo issue trên Github!**
 

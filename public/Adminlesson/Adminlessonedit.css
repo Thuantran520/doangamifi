@@ -1,0 +1,92 @@
+body {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f7fafc 100%);
+    min-height: 100vh;
+    margin: 0;
+}
+.container {
+    max-width: 480px;
+    margin: 48px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 36px 28px 28px 28px;
+}
+h1 {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 28px;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4a5568;
+}
+input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #f1f5f9;
+    transition: border 0.2s;
+}
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border-color: #6366f1;
+    outline: none;
+}
+textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover {
+    background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+    box-shadow: 0 4px 16px rgba(99,102,241,0.12);
+}
+.back-btn {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: #e5e7eb;
+    color: #2563eb;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s;
+    cursor: pointer;
+    z-index: 10;
+}
+.back-btn:hover {
+    background: #6366f1;
+    color: #fff;
+}
+@media (max-width: 600px) {
+    .container {
+        max-width: 98vw;
+        padding: 18px 8px;
+    }
+    h1 {
+        font-size: 1.3rem;
+    }
+}

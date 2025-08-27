@@ -72,7 +72,7 @@ class AuthController extends Controller
             $user = request()->user();
 
             if(($user->role ?? null) === 'admin') {
-                return redirect()-> route('admin.dashboard')->with('success', 'Đăng nhập thành công!');
+                return redirect()-> route('admin.launcher')->with('success', 'Đăng nhập thành công!');
             }
             return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
         }

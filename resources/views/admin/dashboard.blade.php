@@ -12,7 +12,7 @@
         @csrf
         <button type="submit" class="back-btn">Đăng xuất</button>
     </form>
-
+    <a href="{{ route('admin.launcher') }}" class="back-btn">← Quay lại launcher</a>
   <div class="profile-container">
     <h1>Danh sách người dùng</h1>
     @if(isset($users) && count($users))
@@ -24,7 +24,7 @@
                     <th>Email</th>
                     <th>Số điện thoại</th>
                     <th>Role</th>
-                    <!-- Thêm các cột khác nếu muốn -->
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +37,13 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->role }}</td>
+                    <td>
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xóa</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
