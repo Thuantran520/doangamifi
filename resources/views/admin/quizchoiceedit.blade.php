@@ -55,7 +55,7 @@
         </div>
     </div>
     <div class="text-center mt-4">
-        <a href="{{ route('launcher') }}" class="btn btn-secondary">Quay lại trang chính</a>
+        <a href="{{ route('launcher') }}" class="btn btn-secondary">Quay lại trang chính </a>
     </div>
 </div>
 </body>
