@@ -11,10 +11,10 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Quản lý câu hỏi Quiz</h2>
-        <a href="{{ route('admin.quiz.create') }}" class="btn btn-primary">Thêm câu hỏi mới</a>
+        <a href="{{ route('admin.quizpython.create') }}" class="btn btn-primary">Thêm câu hỏi mới</a>
     </div>
 
-    <form class="mb-3" method="GET" action="{{ route('admin.quiz.index') }}">
+    <form class="mb-3" method="GET" action="{{ route('admin.quizpython.index') }}">
         <div class="input-group">
             <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung câu hỏi...">
             <button class="btn btn-outline-secondary" type="submit">Tìm</button>
@@ -48,9 +48,9 @@
                                 <strong>{{ strtoupper($item->correct_answer) }}.</strong> {{ $map[$item->correct_answer] ?? '-' }}
                             </td>
                             <td>
-                                <a href="{{ route('admin.quiz.show', $item) }}" class="btn btn-sm btn-info">Xem</a>
-                                <a href="{{ route('admin.quiz.edit', $item) }}" class="btn btn-sm btn-warning">Sửa</a>
-                                <form action="{{ route('admin.quiz.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn chắc chắn muốn xóa?');">
+                                <a href="{{ route('admin.quizpython.show', ['quizpython' => $item->id]) }}" class="btn btn-sm btn-info">Xem</a>
+                                <a href="{{ route('admin.quizpython.edit', ['quizpython' => $item->id]) }}" class="btn btn-sm btn-warning">Sửa</a>
+                                <form action="{{ route('admin.quizpython.destroy', ['quizpython' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn chắc chắn muốn xóa?');">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Xóa</button>

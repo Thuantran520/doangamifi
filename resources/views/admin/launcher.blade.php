@@ -13,7 +13,7 @@
             <a href="{{ route('admin.dashboard') }}" class="btn-menu">Quản lý người dùng</a>
             <a href="{{ route('admin.lesson') }}" class="btn-menu">Quản lý bài học</a>
             <a href="{{ route('launcher') }}" class="btn-menu">Trang launcher</a>
-            <a href="{{ route('admin.quiz.index') }}" class="btn-menu">Quản lý câu hỏi Quiz</a>
+            <a href="{{ route('admin.choose.quiz') }}" class="btn-menu">Quản lý câu hỏi Quiz</a>
             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                 @csrf
                 <button type="submit" class="btn-menu">Đăng xuất</button>

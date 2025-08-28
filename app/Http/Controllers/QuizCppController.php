@@ -3,24 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Quiz;
+use App\Models\QuizCpp;
 
-class QuizController extends Controller
+class QuizCppController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = Quiz::query();
+        $query = QuizCpp::query();
 
+        // tìm kiếm theo chữ trong câu hỏi (giữ phần hiện có)
         if ($q = $request->get('q')) {
             $query->where('question_text', 'like', '%'.$q.'%');
         }
 
-        $items = Quiz::all()->shuffle(); // xao tron cau hoi 
+        // hỗ trợ params: topics[] (mảng) hoặc topic (1 giá trị)
+        if ($request->filled('topics')) {
+            $topics = $request->input('topics');
+            if (!is_array($topics)) $topics = [$topics];
+            $query->whereIn('topic', $topics);
+        } elseif ($request->filled('topic')) {
+            $query->where('topic', $request->input('topic'));
+        }
 
-        return view('quiz.index', compact('items'));
+        // lấy tối đa 10 câu, random order
+        $items = $query->inRandomOrder()->limit(10)->get();
+
+        return view('quizcpp.index', compact('items'));
     }
 
     /**
@@ -28,7 +39,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        return view('quiz.create');
+        return view('quizcpp.create');
     }
 
     /**
@@ -45,31 +56,31 @@ class QuizController extends Controller
             'correct_answer' => 'required|in:a,b,c,d',
         ]);
 
-        Quiz::create($data);
+        QuizCpp::create($data);
 
-        return redirect()->route('quiz.index')->with('success', 'Tạo câu hỏi thành công.');
+        return redirect()->route('quizcpp.index')->with('success', 'Tạo câu hỏi thành công.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Quiz $quiz)
+    public function show(QuizCpp $quiz)
     {
-        return view('quiz.show', compact('quiz'));
+        return view('quizcpp.show', compact('quiz'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Quiz $quiz)
+    public function edit(QuizCpp $quiz)
     {
-        return view('quiz.edit', compact('quiz'));
+        return view('quizcpp.edit', compact('quiz'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Quiz $quiz)
+    public function update(Request $request, QuizCpp $quiz)
     {
         $data = $request->validate([
             'question_text'  => 'required|string',
@@ -82,17 +93,17 @@ class QuizController extends Controller
 
         $quiz->update($data);
 
-        return redirect()->route('quiz.index')->with('success', 'Cập nhật câu hỏi thành công.');
+        return redirect()->route('quizcpp.index')->with('success', 'Cập nhật câu hỏi thành công.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Quiz $quiz)
+    public function destroy(QuizCpp $quiz)
     {
         $quiz->delete();
 
-        return redirect()->route('quiz.index')->with('success', 'Xóa câu hỏi thành công.');
+        return redirect()->route('quizcpp.index')->with('success', 'Xóa câu hỏi thành công.');
     }
 
     /**
@@ -101,7 +112,7 @@ class QuizController extends Controller
     public function submit(Request $request)
     {
         $answers = $request->input('answers', []);
-        $questions = \App\Models\Quiz::whereIn('id', array_keys($answers))->get();
+        $questions = QuizCpp::whereIn('id', array_keys($answers))->get();
 
         $score = 0;
         $total = $questions->count();
@@ -123,6 +134,6 @@ class QuizController extends Controller
             ];
         }
 
-        return view('quiz.submit', compact('score', 'total', 'results'));
+        return view('quizcpp.submit', compact('score', 'total', 'results'));
     }
 }

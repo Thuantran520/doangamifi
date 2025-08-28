@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Quiz extends Model
+class QuizPython extends Model
 {
-    // nếu bảng của bạn không theo dạng plural 'quizzes', đặt tên bảng đúng:
-    protected $table = 'quiz_questions';
+    protected $table = 'quiz_python';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    public $timestamps = true;
 
     protected $fillable = [
         'question_text',
@@ -17,4 +21,5 @@ class Quiz extends Model
         'option_d',
         'correct_answer',
     ];
+
 }

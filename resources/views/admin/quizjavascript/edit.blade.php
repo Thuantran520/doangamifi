@@ -3,7 +3,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Chỉnh sửa câu hỏi (Admin)</title>
+    <title>Chỉnh sửa câu hỏi (Admin - JavaScript)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -19,9 +19,11 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.quiz.update', $quiz) }}" method="POST">
+    <form id="lesson-form" action="{{ route('admin.quizjavascript.update', $quiz->id) }}" method="POST">
         @csrf
         @method('PUT')
+
+        <input type="hidden" id="updated_date" name="updated_date" value="">
 
         <div class="mb-3">
             <label class="form-label">Nội dung câu hỏi</label>
@@ -58,15 +60,26 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label class="form-label">Độ khó (tùy chọn)</label>
+            <input type="text" name="difficulty" class="form-control" value="{{ old('difficulty', $quiz->difficulty) }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Chủ đề (tùy chọn)</label>
+            <input type="text" name="topic" class="form-control" value="{{ old('topic', $quiz->topic) }}">
+        </div>
+
         <button class="btn btn-primary" type="submit">Cập nhật</button>
-        <a href="{{ route('admin.quiz.index') }}" class="btn btn-secondary">Quay lại</a>
+        <a href="{{ route('admin.quizjavascript.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 
-    <form action="{{ route('admin.quiz.destroy', $quiz) }}" method="POST" class="mt-4" onsubmit="return confirm('Bạn chắc chắn muốn xóa câu hỏi này?');">
+    <form action="{{ route('admin.quizjavascript.destroy', $quiz->id) }}" method="POST" class="mt-4" onsubmit="return confirm('Bạn chắc chắn muốn xóa câu hỏi này?');">
         @csrf
         @method('DELETE')
         <button class="btn btn-danger">Xóa câu hỏi</button>
     </form>
 </div>
+
+<script src="{{ asset('Adminlesson/Admintime.js') }}"></script>
 </body>
 </html>

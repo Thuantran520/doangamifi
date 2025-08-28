@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Quiz;
+use App\Models\QuizJavascript;
 use Illuminate\Support\Facades\DB;
 
-class QuizController extends Controller
+class QuizJavascriptController extends Controller
 {
     /**
      * Hiển thị danh sách câu hỏi.
      */
     public function index(Request $request)
     {
-        $query = Quiz::query();
+        $query = QuizJavascript::query();
 
         if ($q = $request->get('q')) {
             $query->where('question_text', 'like', '%'.$q.'%');
@@ -22,7 +22,7 @@ class QuizController extends Controller
 
         $items = $query->orderBy('id', 'desc')->paginate(25)->withQueryString();
 
-        return view('admin.quiz.index', compact('items'));
+        return view('admin.quizjavascript.index', compact('items'));
     }
 
     /**
@@ -30,7 +30,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        return view('admin.quiz.create');
+        return view('admin.quizjavascript.create');
     }
 
     /**
@@ -45,62 +45,60 @@ class QuizController extends Controller
             'option_c'       => 'required|string',
             'option_d'       => 'required|string',
             'correct_answer' => 'required|in:a,b,c,d',
+            'difficulty'     => 'nullable|string',
+            'topic'          => 'nullable|string',
         ]);
 
-        // Kiểm tra trùng câu hỏi
-        if (Quiz::where('question_text', $data['question_text'])->exists()) {
-            return redirect()->route('admin.quiz.index')
+        if (QuizJavascript::where('question_text', $data['question_text'])->exists()) {
+            return redirect()->route('admin.quizjavascript.index')
                 ->with('error', 'Câu hỏi này đã tồn tại!');
         }
 
-        Quiz::create($data);
+        QuizJavascript::create($data);
 
-        return redirect()->route('admin.quiz.index')->with('success', 'Tạo câu hỏi thành công.');
+        return redirect()->route('admin.quizjavascript.index')->with('success', 'Tạo câu hỏi thành công.');
     }
 
     /**
      * Hiển thị chi tiết câu hỏi.
      */
-    public function show(Quiz $quiz)
+    public function show(\App\Models\QuizJavascript $quizjavascript)
     {
-        return view('admin.quiz.show', compact('quiz'));
+        $quiz = $quizjavascript;
+        return view('admin.quizjavascript.show', compact('quiz'));
     }
 
     /**
      * Hiển thị form chỉnh sửa câu hỏi.
      */
-    public function edit(Quiz $quiz)
+    public function edit(\App\Models\QuizJavascript $quizjavascript)
     {
-        return view('admin.quiz.edit', compact('quiz'));
+        $quiz = $quizjavascript;
+        return view('admin.quizjavascript.edit', compact('quiz'));
     }
 
     /**
      * Cập nhật câu hỏi.
      */
-    public function update(Request $request, Quiz $quiz)
+    public function update(Request $request, \App\Models\QuizJavascript $quizjavascript)
     {
-        $data = $request->validate([
-            'question_text'  => 'required|string',
-            'option_a'       => 'required|string',
-            'option_b'       => 'required|string',
-            'option_c'       => 'required|string',
-            'option_d'       => 'required|string',
-            'correct_answer' => 'required|in:a,b,c,d',
+        $data = $request->only([
+            'question_text', 'option_a', 'option_b', 'option_c', 'option_d',
+            'correct_answer', 'difficulty', 'topic'
         ]);
 
-        $quiz->update($data);
+        $quizjavascript->update($data);
 
-        return redirect()->route('admin.quiz.index')->with('success', 'Cập nhật câu hỏi thành công.');
+        return redirect()->route('admin.quizjavascript.index')->with('success', 'Cập nhật thành công');
     }
 
     /**
      * Xóa câu hỏi.
      */
-    public function destroy(Quiz $quiz)
+    public function destroy(\App\Models\QuizJavascript $quizjavascript)
     {
-        $quiz->delete();
-
-        return redirect()->route('admin.quiz.index')->with('success', 'Xóa câu hỏi thành công.');
+        $quizjavascript->delete();
+        return redirect()->route('admin.quizjavascript.index')->with('success', 'Xóa thành công');
     }
 
     /**
@@ -117,21 +115,22 @@ class QuizController extends Controller
 
         $rows = array_map('str_getcsv', file($path));
         foreach (array_slice($rows, 1) as $row) {
-            if (count($row) < 6) continue; // Bỏ qua dòng thiếu dữ liệu
+            if (count($row) < 6) continue;
 
-            // Kiểm tra trùng câu hỏi
-            if (DB::table('quiz_questions')->where('question_text', $row[0])->exists()) continue;
+            if (DB::table('quiz_javascript')->where('question_text', $row[0])->exists()) continue;
 
-            DB::table('quiz_questions')->insert([
+            DB::table('quiz_javascript')->insert([
                 'question_text' => $row[0],
                 'option_a' => $row[1],
                 'option_b' => $row[2],
                 'option_c' => $row[3],
                 'option_d' => $row[4],
                 'correct_answer' => $row[5],
+                'difficulty' => $row[6] ?? null,
+                'topic' => $row[7] ?? null,
             ]);
         }
 
-        return redirect()->route('quiz.index')->with('success', 'Upload file thành công!');
+        return redirect()->route('admin.quizjavascript.index')->with('success', 'Upload file thành công!');
     }
 }

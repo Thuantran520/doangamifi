@@ -1,15 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Làm bài trắc nghiệm</title>
+    <title>Làm bài trắc nghiệm C++</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CDN (tùy chọn, có thể bỏ nếu không dùng) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container py-4">
-    <h2 class="mb-4">Làm bài trắc nghiệm</h2>
+    <h2 class="mb-4">Làm bài trắc nghiệm C++</h2>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -19,7 +19,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('quiz.submit') }}">
+    <form method="POST" action="{{ route('quizcpp.submit') }}">
         @csrf
 
         @foreach($items as $item)
@@ -58,7 +58,6 @@
         Quay về trang chủ
     </a>
 </div>
-<!-- Bootstrap JS (tùy chọn) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

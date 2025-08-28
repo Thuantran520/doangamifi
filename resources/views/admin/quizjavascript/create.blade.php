@@ -1,17 +1,20 @@
-{{-- filepath: resources/views/admin/quiz/create.blade.php --}}
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Thêm câu hỏi mới</title>
+    <title>Thêm câu hỏi Quiz JavaScript</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
 </head>
 <body>
 <div class="container mt-4">
-    <h2>Thêm câu hỏi mới</h2>
-    <form method="POST" action="{{ route('admin.quiz.store') }}">
+    <h2>Thêm câu hỏi Quiz JavaScript</h2>
+    <form id="lesson-form" method="POST" action="{{ route('admin.quizjavascript.store') }}">
         @csrf
+
+        <!-- hidden created_at (will be filled by Admintime.js) -->
+        <input type="hidden" id="created_at" name="created_at" value="">
+
         <div class="mb-3">
             <label for="question_text" class="form-label">Nội dung câu hỏi</label>
             <input type="text" class="form-control" name="question_text" required>
@@ -41,13 +44,22 @@
                 <option value="d">D</option>
             </select>
         </div>
+        <div class="mb-3">
+            <label class="form-label">Độ khó (tùy chọn)</label>
+            <input type="text" class="form-control" name="difficulty" value="">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Chủ đề (tùy chọn)</label>
+            <input type="text" class="form-control" name="topic" value="">
+        </div>
+
         <button type="submit" class="btn btn-primary">Thêm câu hỏi</button>
-        <a href="{{ route('admin.quiz.index') }}" class="btn btn-secondary ms-2">Quay lại</a>
+        <a href="{{ route('admin.quizjavascript.index') }}" class="btn btn-secondary ms-2">Quay lại</a>
     </form>
 
     <hr>
     <h4>Nhập liệu bằng file Excel/CSV</h4>
-    <form method="POST" action="{{ route('admin.quiz.upload') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.quizjavascript.upload') }}" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <input type="file" name="quiz_file" accept=".xlsx,.xls,.csv" required>
@@ -55,6 +67,8 @@
         <button type="submit" class="btn btn-success">Upload & Nhập liệu</button>
     </form>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('Adminlesson/Admintime.js') }}"></script>
 </body>
 </html>

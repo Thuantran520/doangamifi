@@ -14,7 +14,7 @@
       @auth
       <a href="{{ route('lesson') }}">Nội dung bài học</a>
       <a href="{{ route('practice') }}">Các bài thực hành của tôi</a>
-      <a href="{{ route('quiz.index') }}">Bài trắc nghiệm</a>
+      <a href="{{ route('choose.quiz') }}">Bài trắc nghiệm</a>
       @endauth
       @guest
         <h3> Vui lòng đăng nhập để tiếp tục </h3>
