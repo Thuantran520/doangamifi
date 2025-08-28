@@ -1,132 +1,118 @@
-# Đồ án Quản lý Bài tập / Học tập (Laravel)
+# DoanGamiFi
 
-## 📌 Giới thiệu
-Ứng dụng web quản lý bài học, bài tập, quiz cho học sinh và admin, xây dựng bằng **Laravel**.  
-Hỗ trợ cả giao diện Web và API, phân quyền người dùng, nhập liệu hàng loạt, và quản lý đa ngôn ngữ (Python, C++, Javascript).
+Nền tảng luyện tập & trắc nghiệm nhanh cho lập trình (Python, C++, JavaScript) xây dựng trên Laravel 12.
 
----
+## Tính năng chính
+- Đăng ký / đăng nhập (Laravel auth / Sanctum nền tảng).
+- Quản trị câu hỏi theo từng môn: Python, C++, JavaScript (CRUD + upload hàng loạt).
+- Làm bài trắc nghiệm nhanh, chấm điểm tức thì.
+- Chọn nhanh môn & chủ đề qua trang giao diện thẻ (Quiz Choice).
+- Phân tách view admin & public.
+- Hỗ trợ tìm kiếm / lọc theo chủ đề (topic).
+- Migration đổi tên bảng `quiz_questions` → `quiz_python` + mở rộng sang C++ / JS.
 
-## 🚀 Yêu cầu hệ thống
-- PHP >= 8.2
-- Composer >= 2.x
-- MySQL hoặc MariaDB
-- Node.js + NPM (dùng cho build giao diện)
+## Công nghệ
+- Laravel 12 (PHP >= 8.2)
+- Blade, Bootstrap 5.3
+- Pest / PHPUnit (tests mặc định)
+- Vite (build frontend)
+- MySQL / MariaDB (mặc định, có thể thay bằng SQLite khi dev)
 
----
+## Chuẩn bị môi trường
+| Thành phần | Yêu cầu |
+|------------|---------|
+| PHP        | 8.2+ (enable: mbstring, pdo, openssl, intl, fileinfo) |
+| Composer   | 2.x |
+| Node.js    | 18+ |
+| Database   | MySQL/MariaDB hoặc SQLite |
 
-## ⚙️ Cài đặt & Khởi động
+## Cài đặt nhanh (PowerShell)
+```powershell
+git clone <repo-url> doangamifi
+cd doangamifi
 
-1. **Clone project:**
-    ```bash
-    git clone <link-repo>
-    cd doangamifi
-    ```
+copy .env.example .env   # hoặc dùng lệnh: cp .env.example .env
+composer install
+php artisan key:generate
 
-2. **Cài đặt dependencies:**
-    ```bash
-    composer install
-    npm install && npm run dev
-    ```
+# Cấu hình DB trong .env rồi chạy:
+php artisan migrate
 
-3. **Tạo file .env & cấu hình database:**
-    ```bash
-    cp .env.example .env
-    ```
-    - Chỉnh sửa thông tin kết nối database trong file `.env`.
+npm install
+npm run build  # (hoặc npm run dev trong khi phát triển)
 
-4. **Sinh key ứng dụng:**
-    ```bash
-    php artisan key:generate
-    ```
-
-5. **Chạy migrate & seed dữ liệu mẫu:**
-    ```bash
-    php artisan migrate --seed
-    ```
-
-6. **Khởi động server:**
-    ```bash
-    php artisan serve
-    ```
-    - Truy cập: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
----
-
-## 🗂️ Cấu trúc thư mục chính
-
-```
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── AuthController.php
-│   │   ├── UserDashboardController.php
-│   │   └── Admin/
-│   │       └── DashboardController.php
-│   └── Requests/
-├── Models/
-│   ├── User.php
-│   ├── Task.php
-│   ├── Python.php
-│   ├── Cpp.php
-│   └── Javascript.php
-routes/
-├── web.php     # Route cho Web
-└── api.php     # Route cho API
-resources/
-├── views/      # Blade templates cho giao diện
-└── css, js     # Frontend assets
+php artisan serve
 ```
 
+Truy cập: http://127.0.0.1:8000
+
+## Các route quan trọng
+| Chức năng | URL | Tên route ví dụ |
+|-----------|-----|-----------------|
+| Trang khởi động | `/` | `launcher` |
+| Chọn bài / môn | `/choose-quiz` | `choose.quiz` |
+| Quiz Python | `/quizpython` | `quizpython.index` |
+| Quiz C++ | `/quizcpp` | `quizcpp.index` |
+| Quiz JavaScript | `/quizjavascript` | `quizjavascript.index` |
+| Admin quiz Python | `/admin/quizpython` | `admin.quizpython.index` |
+| Admin quiz C++ | `/admin/quizcpp` | `admin.quizcpp.index` |
+| Admin quiz JS | `/admin/quizjavascript` | `admin.quizjavascript.index` |
+
+(Đảm bảo đã đăng nhập nếu các route nằm trong middleware `auth`.)
+
+## Thêm câu hỏi
+1. Vào trang admin môn tương ứng.
+2. Nhấn “Create” để thêm tay hoặc dùng chức năng upload (nếu đã bật).
+3. Trường quan trọng: `question`, `option_a`… `option_d`, `correct_answer`, `topic`, (tùy chọn: `difficulty`, `description`).
+
+## Cấu trúc bảng (ví dụ quiz_python)
+| Cột | Mô tả |
+|-----|-------|
+| id | Khóa chính |
+| question | Nội dung câu hỏi |
+| option_a..d | Đáp án lựa chọn |
+| correct_answer | Ký tự (a/b/c/d) |
+| topic | Chủ đề (dùng để lọc) |
+| difficulty (tùy) | Mức độ |
+| created_at / updated_at | Thời gian |
+
+## Seed / Dữ liệu mẫu (tùy chọn)
+Có thể tạo factory & seeder rồi chạy:
+```powershell
+php artisan db:seed
+```
+
+## Lỗi thường gặp
+| Vấn đề | Nguyên nhân | Cách khắc phục |
+|--------|-------------|----------------|
+| 404 quiz route | Tên route/tham số sai | `php artisan route:list` kiểm tra |
+| Missing parameter `{quizpython}` | Sai tên biến trong controller resource | Đồng bộ tham số phương thức & tên route |
+| Cột `topic` không tồn tại | Chạy migration sai thứ tự / rollback | `php artisan migrate:status` rồi `migrate:fresh` |
+
+## Developer scripts hữu ích
+```powershell
+php artisan route:list
+php artisan migrate:fresh --seed
+php artisan optimize:clear
+npm run dev
+```
+
+## Kiểm thử
+```powershell
+php artisan test
+# hoặc
+vendor\bin\pest
+```
+
+## Đóng góp / Phát triển tiếp
+- Thêm pagination & mức độ (difficulty) filter.
+- Thống kê điểm, lịch sử làm bài.
+- API JSON cho mobile app.
+- Tính năng upload batch CSV.
+
+## Giấy phép
+Dự án mẫu học tập nội bộ. Thêm LICENSE nếu cần.
+
 ---
-
-## 🧩 Tính năng nổi bật
-
-- Đăng ký, đăng nhập, đăng xuất (Laravel Sanctum)
-- Phân quyền: Admin & User
-- Quản lý bài học đa ngôn ngữ: Python, C++, Javascript
-- Quản lý công việc (Task API)
-- Quản lý quiz, câu hỏi trắc nghiệm
-- Nhập liệu hàng loạt qua Excel/CSV
-- Giao diện hiện đại, responsive cho học sinh & admin
-- Trang lỗi tùy chỉnh, bảo mật session
-
----
-
-## 🔗 API Endpoint chính
-
-**Auth**
-- `POST /api/register` – Đăng ký
-- `POST /api/login` – Đăng nhập
-- `POST /api/logout` – Đăng xuất
-- `GET /api/user` – Thông tin user đang đăng nhập
-
-**Tasks**
-- `GET /api/tasks`
-- `POST /api/tasks`
-- `PUT /api/tasks/{id}`
-- `DELETE /api/tasks/{id}`
-
-**Lessons & Quiz**
-- `GET /api/lessons/{type}` – Lấy danh sách bài học theo loại
-- `POST /api/lessons/{type}` – Thêm bài học
-- `GET /api/quizzes` – Lấy danh sách quiz
-- `POST /api/quizzes` – Thêm quiz
-
----
-
-## 💡 Hướng dẫn sử dụng
-
-- Truy cập trang chủ để chọn loại bài học hoặc quản lý (admin).
-- Admin có thể thêm/sửa/xóa bài học, quiz, và nhập liệu hàng loạt.
-- Người dùng có thể xem bài học, làm quiz, và theo dõi tiến trình.
-
----
-
-## 📜 License
-
-Dự án phục vụ mục đích học tập, phi thương mại.
-
----
-
-**Mọi thắc mắc hoặc đóng góp, vui lòng liên hệ hoặc tạo issue trên Github!**
+(README được cập nhật để phản ánh hệ thống quiz đa môn vừa thêm.)
 
