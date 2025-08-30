@@ -1,52 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đăng nhập - Gamification</title>
-  <link rel="stylesheet" href="{{ asset('login.css') }}" />
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - Gamification</title>
+    <link rel="stylesheet" href="{{ asset('auth.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <div class="container">
-    <form id="loginForm" class="form-box active" method="POST" action="{{ route('login') }}">
-        @csrf
-        <h2 class="form-title">Đăng nhập tài khoản</h2>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Đăng nhập</h2>
+        </div>
+        <div class="auth-body">
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <input type="email" name="email" class="input-field" placeholder="Email" required value="{{ old('email') }}">
+                    <i class="icon fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="input-field" placeholder="Mật khẩu" required>
+                    <i class="icon fas fa-lock"></i>
+                </div>
+                <div class="forgot-password">
+                    <a href="{{ route('password.request') }}">Quên mật khẩu?</a>
+                </div>
+                <button type="submit" class="btn-submit">Đăng nhập</button>
+                <div class="auth-links">
+                    <p>Chưa có tài khoản? <a href="{{ route('register.form') }}">Đăng ký ngay</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <input type="email"    id="loginUsername" name="email"    class="input-field" placeholder="Email" required />
-        <input type="password" id="loginPassword" name="password" class="input-field" placeholder="Mật khẩu" required />
-
-        <button type="submit" class="btn-login">Đăng nhập</button>
-        <p class="switch-text">
-            Bạn chưa có tài khoản?
-            <a href="{{ route('register.form') }}" class="switch-link">Đăng ký</a>
-        </p>
-    </form>
-  </div>
+    @if($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Đăng nhập thất bại',
+                html: '{!! implode('<br>', $errors->all()) !!}',
+                confirmButtonText: 'Thử lại'
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>
-@if($errors->any())
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'error',
-            title: 'Có lỗi xảy ra',
-            html: '{!! implode('<br>', $errors->all()) !!}', // xuong dong moi loi
-            confirmButtonText: 'OK'
-        });
-    });
-</script>
-@endif
-
-@if(session('success'))
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'success',
-            title: 'Thành công',
-            html: '{{ session('success') }}',
-            confirmButtonText: 'OK'
-        });
-    });
-</script>
-@endif

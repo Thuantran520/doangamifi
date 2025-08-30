@@ -11,16 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->timestamps();
-            if (!Schema::hasColumn('quiz_questions', 'difficulty')) {
-                $table->string('difficulty')->nullable()->after('correct_answer');
+        // Danh sách các bảng quiz cần cập nhật
+        $quizTables = ['quizpython', 'quizcpp', 'quizjavascript'];
+
+        foreach ($quizTables as $tableName) {
+            if (Schema::hasTable($tableName)) {
+                Schema::table($tableName, function (Blueprint $table) {
+                    // Thêm cột timestamps (created_at, updated_at) nếu chưa có
+                    if (!Schema::hasColumn($table->getTable(), 'created_at') && !Schema::hasColumn($table->getTable(), 'updated_at')) {
+                        $table->timestamps();
+                    }
+                    // Thêm cột difficulty nếu chưa có
+                    if (!Schema::hasColumn($table->getTable(), 'difficulty')) {
+                        $table->string('difficulty')->nullable()->after('correct_answer');
+                    }
+                    // Thêm cột topic nếu chưa có
+                    if (!Schema::hasColumn($table->getTable(), 'topic')) {
+                        $table->string('topic')->nullable()->after('difficulty');
+                    }
+                });
             }
-            if (!Schema::hasColumn('quiz_questions', 'topic')) {
-                $table->string('topic')->nullable()->after('difficulty');
-            }
-            // Thêm các cột khác ở đây nếu muốn
-        });
+        }
     }
 
     /**
@@ -28,15 +39,23 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->dropColumn(['created_at', 'updated_at']);
-            if (Schema::hasColumn('quiz_questions', 'difficulty')) {
-                $table->dropColumn('difficulty');
+        $quizTables = ['quizpython', 'quizcpp', 'quizjavascript'];
+
+        foreach ($quizTables as $tableName) {
+            if (Schema::hasTable($tableName)) {
+                Schema::table($tableName, function (Blueprint $table) {
+                    // Xóa các cột nếu chúng tồn tại
+                    if (Schema::hasColumn($table->getTable(), 'topic')) {
+                        $table->dropColumn('topic');
+                    }
+                    if (Schema::hasColumn($table->getTable(), 'difficulty')) {
+                        $table->dropColumn('difficulty');
+                    }
+                    if (Schema::hasColumn($table->getTable(), 'created_at') && Schema::hasColumn($table->getTable(), 'updated_at')) {
+                        $table->dropTimestamps();
+                    }
+                });
             }
-            if (Schema::hasColumn('quiz_questions', 'topic')) {
-                $table->dropColumn('topic');
-            }
-            // Xóa các cột khác nếu đã thêm
-        });
+        }
     }
 };

@@ -1,32 +1,24 @@
 /* Clean, responsive styles for Quiz choice page */
 
-:root{
-  --bg: #f6f8fb;
-  --card: #ffffff;
-  --muted: #6c757d;
-  --primary: #0d6efd;
-  --surface-border: #e6eef6;
-  --radius: 10px;
-  --gap: 1rem;
-  --max-width: 1200px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: #f3f4f6;
-  color:#0f1724;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-
-/* Page container */
 .container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 1.25rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    text-align: center;
 }
 
 /* Header/hero */
@@ -37,6 +29,48 @@ body{
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
   border-bottom: 1px solid rgba(13,110,253,0.03);
   margin-bottom: .75rem;
+}
+
+/* Header */
+.header {
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.back-btn:hover {
+    color: #000;
+}
+
+.header h1 {
+    font-size: 2.8rem;
+    color: #1c2a48;
+    margin-bottom: 10px;
+}
+
+.header h1 i {
+    margin-right: 15px;
+    color: #3b82f6;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* Cards grid */
@@ -221,3 +255,90 @@ a:focus, button:focus, .btn-lesson:focus { box-shadow: 0 0 0 3px rgba(13,110,253
 
 /* Small polish for action area */
 .mt-4 { margin-top: 1rem !important; }
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.quiz-card {
+    background-color: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 5px solid transparent;
+}
+
+.quiz-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon-container {
+    padding: 30px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-icon {
+    font-size: 4rem;
+}
+
+.card-content {
+    padding: 0 30px 20px;
+    flex-grow: 1;
+}
+
+.card-content h2 {
+    font-size: 1.8rem;
+    margin: 0 0 10px;
+    color: #1c2a48;
+}
+
+.card-content p {
+    font-size: 1rem;
+    color: #777;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.btn-start {
+    display: block;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: auto;
+}
+
+.btn-start i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.quiz-card:hover .btn-start i {
+    transform: translateX(5px);
+}
+
+/* Card specific colors */
+.quiz-card.python { border-bottom-color: #FFD43B; }
+.quiz-card.python .card-icon { color: #306998; }
+.quiz-card.python .btn-start { background-color: #f0f7ff; color: #306998; }
+.quiz-card.python:hover { border-bottom-color: #306998; }
+
+.quiz-card.cpp { border-bottom-color: #007BCC; }
+.quiz-card.cpp .card-icon { color: #00599C; }
+.quiz-card.cpp .btn-start { background-color: #e6f2ff; color: #00599C; }
+.quiz-card.cpp:hover { border-bottom-color: #00599C; }
+
+.quiz-card.javascript { border-bottom-color: #F7DF1E; }
+.quiz-card.javascript .card-icon { color: #323330; }
+.quiz-card.javascript .btn-start { background-color: #fff9e6; color: #323330; }
+.quiz-card.javascript:hover { border-bottom-color: #323330; }

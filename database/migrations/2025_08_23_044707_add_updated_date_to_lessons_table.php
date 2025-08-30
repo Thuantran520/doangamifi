@@ -11,11 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lessons', function (Blueprint $table) {
-            if (!Schema::hasColumn('lessons', 'updated_date')) {
-                $table->date('updated_date')->nullable()->after('created_at');
+        // Danh sách các bảng bài học cần cập nhật
+        $lessonTables = ['python', 'cpp', 'javascript'];
+
+        foreach ($lessonTables as $tableName) {
+            // Kiểm tra xem bảng có tồn tại không trước khi sửa
+            if (Schema::hasTable($tableName)) {
+                Schema::table($tableName, function (Blueprint $table) {
+                    // Thêm cột 'updated_date' nếu nó chưa tồn tại
+                    if (!Schema::hasColumn($table->getTable(), 'updated_date')) {
+                        $table->date('updated_date')->nullable()->after('created_at');
+                    }
+                });
             }
-        });
+        }
     }
 
     /**
@@ -23,8 +32,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('lessons', function (Blueprint $table) {
-            $table->dropColumn('updated_date');
-        });
+        $lessonTables = ['python', 'cpp', 'javascript'];
+
+        foreach ($lessonTables as $tableName) {
+            if (Schema::hasTable($tableName) && Schema::hasColumn($tableName, 'updated_date')) {
+                Schema::table($tableName, function (Blueprint $table) {
+                    $table->dropColumn('updated_date');
+                });
+            }
+        }
     }
 };

@@ -3,72 +3,79 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý câu hỏi Quiz JavaScript (Admin)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Quiz JavaScript</title>
+    <link rel="stylesheet" href="{{ asset('admin/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 @php use Illuminate\Support\Str; @endphp
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Quản lý câu hỏi Quiz JavaScript</h2>
-        <a href="{{ route('admin.quizjavascript.create') }}" class="btn btn-primary">Thêm câu hỏi mới</a>
+
+<div class="admin-container">
+    <div class="page-header">
+        <h1><i class="fab fa-js-square"></i> Quản lý Quiz JavaScript</h1>
+        <div>
+            <a href="{{ route('admin.launcher') }}" class="back-btn" style="margin-right: 15px;"><i class="fas fa-arrow-left"></i> Quay lại</a>
+            <a href="{{ route('admin.quizjavascript.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm câu hỏi</a>
+        </div>
     </div>
 
-    <form class="mb-3" method="GET" action="{{ route('admin.quizjavascript.index') }}">
-        <div class="input-group">
-            <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung câu hỏi...">
-            <button class="btn btn-outline-secondary" type="submit">Tìm</button>
-        </div>
-    </form>
+    <div class="table-controls">
+        <form method="GET" action="{{ route('admin.quizjavascript.index') }}" class="search-form">
+            <input type="text" name="q" placeholder="Tìm kiếm câu hỏi..." value="{{ request('q') }}" class="search-input">
+            <button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
     @endif
 
-    @if($items->count())
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
+    @if($items->isEmpty())
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Chưa có câu hỏi nào cho JavaScript.
+        </div>
+    @else
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Nội dung câu hỏi</th>
+                    <th>Đáp án đúng</th>
+                    <th width="25%">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($items as $item)
                     <tr>
-                        <th style="width:60px;">#</th>
-                        <th>Nội dung</th>
-                        <th style="width:200px;">Đáp án đúng</th>
-                        <th style="width:160px;">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($items as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ Str::limit($item->question_text, 120) }}</td>
-                            <td>
-                                @php
-                                    $map = ['a' => $item->option_a, 'b' => $item->option_b, 'c' => $item->option_c, 'd' => $item->option_d];
-                                @endphp
-                                <strong>{{ strtoupper($item->correct_answer) }}.</strong> {{ $map[$item->correct_answer] ?? '-' }}
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.quizjavascript.show', ['quizjavascript' => $item->id]) }}" class="btn btn-sm btn-info">Xem</a>
-                                <a href="{{ route('admin.quizjavascript.edit', ['quizjavascript' => $item->id]) }}" class="btn btn-sm btn-warning">Sửa</a>
-                                <form action="{{ route('admin.quizjavascript.destroy', ['quizjavascript' => $item->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn chắc chắn muốn xóa?');">
+                        <td>{{ $item->id }}</td>
+                        <td>{{ Str::limit($item->question_text, 100) }}</td>
+                        <td>
+                            @php
+                                $map = ['a' => $item->option_a, 'b' => $item->option_b, 'c' => $item->option_c, 'd' => $item->option_d];
+                            @endphp
+                            <strong>{{ strtoupper($item->correct_answer) }}.</strong> {{ Str::limit($map[$item->correct_answer] ?? '-', 50) }}
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="{{ route('admin.quizjavascript.show', $item->id) }}" class="btn btn-info"><i class="fas fa-eye"></i> Xem</a>
+                                <a href="{{ route('admin.quizjavascript.edit', $item->id) }}" class="btn btn-edit"><i class="fas fa-pencil-alt"></i> Sửa</a>
+                                <form action="{{ route('admin.quizjavascript.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn câu hỏi này?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Xóa</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa</button>
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <nav>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="pagination-container">
             {{ $items->links('pagination::bootstrap-5') }}
-        </nav>
-        <a href="{{ route('admin.launcher') }}" class="btn btn-secondary mt-3">Quay lại trang quản trị</a>
-    @else
-        <div class="alert alert-secondary">Chưa có câu hỏi nào.</div>
+        </div>
     @endif
 </div>
 </body>

@@ -1,62 +1,66 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Hiệu ứng mở rộng/thu gọn nội dung bài học
-  document.querySelectorAll(".lesson-item h2").forEach(function (title) {
-    title.style.cursor = "pointer";
-    title.addEventListener("click", function () {
-      const detail = this.parentElement.querySelector(".lesson-detail");
-      if (detail.style.maxHeight && detail.style.maxHeight !== "0px") {
-        detail.style.maxHeight = "0px";
-        detail.style.opacity = 0.7;
-      } else {
-        detail.style.maxHeight = detail.scrollHeight + "px";
-        detail.style.opacity = 1;
-      }
-    });
-  });
+    const lessonList = document.querySelector(".lesson-list");
 
-  // Hiệu ứng highlight khi hover
-  document.querySelectorAll(".lesson-item").forEach(function (item) {
-    item.addEventListener("mouseenter", function () {
-      item.style.background = "linear-gradient(120deg, #e3eafc 0%, #fff 100%)";
-    });
-    item.addEventListener("mouseleave", function () {
-      item.style.background = "#fff";
-    });
-  });
-
-  document.querySelectorAll(".flip-card").forEach(function (card) {
-    card.addEventListener("click", function () {
-      card.classList.toggle("flipped");
-    });
-  });
-
-  document.querySelectorAll(".accordion-header").forEach(function (header) {
-    header.style.cursor = "pointer";
-    header.addEventListener("click", function () {
-      const content = header.nextElementSibling;
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-      }
-    });
-  });
-
-  document.querySelectorAll(".lesson-item").forEach((item) => {
-    const key = item.dataset.lesson;
-    const btn = item.querySelector(".btn-viewed");
-    if (btn && localStorage.getItem("viewed-" + key)) {
-      btn.classList.add("viewed");
-      btn.textContent = "✔ Đã xem";
-      item.classList.add("lesson-viewed");
+    // Nếu không có danh sách bài học trên trang, không làm gì cả
+    if (!lessonList) {
+        return;
     }
-    if (btn) {
-      btn.addEventListener("click", function () {
-        localStorage.setItem("viewed-" + key, "1");
-        btn.classList.add("viewed");
-        btn.textContent = "✔ Đã xem";
-        item.classList.add("lesson-viewed");
-      });
-    }
-  });
+
+    // Sử dụng kỹ thuật Event Delegation để xử lý tất cả các click trong danh sách
+    lessonList.addEventListener("click", function (event) {
+        const header = event.target.closest(".accordion-header");
+        const viewedBtn = event.target.closest(".btn-viewed");
+
+        // --- Xử lý nút "Đã xem" ---
+        if (viewedBtn) {
+            event.stopPropagation(); // Ngăn không cho accordion mở/đóng khi bấm nút này
+            const lessonItem = viewedBtn.closest(".lesson-item");
+            const lessonId = lessonItem.dataset.lessonId;
+
+            if (lessonId) {
+                // Thêm/xóa trạng thái đã xem trong localStorage
+                if (localStorage.getItem(lessonId) === "true") {
+                    localStorage.removeItem(lessonId);
+                    lessonItem.classList.remove("viewed");
+                    viewedBtn.classList.remove("viewed");
+                } else {
+                    localStorage.setItem(lessonId, "true");
+                    lessonItem.classList.add("viewed");
+                    viewedBtn.classList.add("viewed");
+                }
+            }
+            return; // Dừng lại sau khi xử lý nút
+        }
+
+        // --- Xử lý việc mở/đóng accordion ---
+        if (header) {
+            const lessonItem = header.closest(".lesson-item");
+            const content = lessonItem.querySelector(".accordion-content");
+
+            // Đóng tất cả các accordion khác (tùy chọn, có thể bỏ nếu muốn mở nhiều cái cùng lúc)
+            document.querySelectorAll(".lesson-item.active").forEach(item => {
+                if (item !== lessonItem) {
+                    item.classList.remove("active");
+                    item.querySelector(".accordion-content").style.maxHeight = null;
+                }
+            });
+
+            // Mở hoặc đóng accordion hiện tại
+            lessonItem.classList.toggle("active");
+            if (lessonItem.classList.contains("active")) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        }
+    });
+
+    // --- Khôi phục trạng thái "Đã xem" khi tải trang ---
+    document.querySelectorAll(".lesson-item").forEach(item => {
+        const lessonId = item.dataset.lessonId;
+        if (lessonId && localStorage.getItem(lessonId) === "true") {
+            item.classList.add("viewed");
+            item.querySelector(".btn-viewed").classList.add("viewed");
+        }
+    });
 });

@@ -3,14 +3,21 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>403 - Không có quyền truy cập</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('error.css') }}">
 </head>
 <body>
-<div class="container text-center mt-5">
-    <h1 class="display-4 text-danger">403</h1>
-    <p class="lead">Xin lỗi, bạn không có quyền truy cập vào trang này.</p>
-    <a href="{{ route('launcher') }}" class="btn btn-primary">Trang chủ</a>
-</div>
+    <div class="error-container">
+        <div class="error-card">
+            <h1 class="error-code">403</h1>
+            <h2 class="error-title">Truy cập bị từ chối</h2>
+            <p class="error-message">Rất tiếc, bạn không có quyền để xem trang này.</p>
+            <a href="{{ route('launcher') }}" class="btn-home">
+                <i class="fas fa-home"></i>
+                <span>Về trang chủ</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

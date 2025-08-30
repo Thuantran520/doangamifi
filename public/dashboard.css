@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 /* Reset */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4faff; /* nền xanh biển nhạt */
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
   color: #333;
 }
+
+/* Ẩn */
+.hidden { display: none !important; }
 
 /* Nút quay về ở góc trái */
 .back-btn {
@@ -19,46 +24,109 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s;
+  text-decoration: none;
+  color: #495057;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .back-btn:hover {
   background: #1976d2;
+  color: #007bff;
 }
 
 /* Khung chính */
 .profile-container {
-  width: 400px;
-  margin: 80px auto;
-  padding: 25px;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   background: #ffffff;
   text-align: center;
 }
 
+.profile-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 30px 40px;
+}
+
+.profile-card h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
 /* Avatar */
 .avatar-section {
+  position: relative;
+  text-align: center;
+  flex-shrink: 0;
   margin-bottom: 25px;
 }
 
-.avatar-section img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 3px solid #2196f3;
-  object-fit: cover;
-  margin-bottom: 15px;
-  cursor: pointer;
+#avatarPreview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
+
+.avatar-edit-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #fff;
+    transition: background-color 0.2s;
+}
+.avatar-edit-button:hover { background-color: #0056b3; }
 
 /* Thông tin */
 .info-section {
+  flex-grow: 1;
   text-align: left;
 }
 
-.info-section p {
-  margin: 20px 0;
-  font-size: 16px;
+.info-group {
+    margin-bottom: 20px;
+}
+
+.info-group label {
+    font-weight: 700;
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-group p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+    padding: 8px 0;
 }
 
 /* Input khi chỉnh sửa */
@@ -87,18 +155,18 @@ body {
   margin-top: 20px;
 }
 
-.btn-group button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Màu cho các nút */
 #editBtn {
   background: #2196f3;
   color: white;
@@ -108,25 +176,16 @@ body {
   background: #1976d2;
 }
 
-#saveBtn {
-  background: #4caf50;
-  color: white;
-}
+.btn-primary { background-color: #007bff; color: #fff; }
+.btn-primary:hover { background-color: #0056b3; }
+.btn-secondary { background-color: #6c757d; color: #fff; }
+.btn-secondary:hover { background-color: #5a6268; }
+.btn-light { background-color: #f8f9fa; color: #333; border: 1px solid #ccc; }
+.btn-light:hover { background-color: #e2e6ea; }
 
-#saveBtn:hover {
-  background: #388e3c;
-}
-
-#cancelBtn {
-  background: #f44336;
-  color: white;
-}
-
-#cancelBtn:hover {
-  background: #d32f2f;
-}
-
-/* Ẩn */
-.hidden {
-  display: none;
+.profile-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    text-align: right;
 }

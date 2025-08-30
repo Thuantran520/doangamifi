@@ -1,31 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Chọn loại bài học</title>
-    <link rel="stylesheet" href="{{ asset('Adminlesson/Adminlesson.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Bài Học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('lesson.css') }}">
-    <!-- Nếu có JS dùng chung, thêm ở cuối file -->
 </head>
 <body>
-    <a href="{{ route('launcher') }}" class="btn-back-home">Quay lại trang chủ</a>
     <div class="container">
-        <h1 class="lesson-title">Chọn loại bài học</h1>
-        <div class="lesson-category-list">
-            <div class="lesson-category-item">
-                <h2>Python</h2>
-                <a href="{{ route('python') }}" class="btn-lesson">Xem bài học Python</a>
-            </div>
-            <div class="lesson-category-item">
-                <h2>C++</h2>
-                <a href="{{ route('cpp') }}" class="btn-lesson">Xem bài học C++</a>
-            </div>
-            <div class="lesson-category-item">
-                <h2>Javascript</h2>
-                <a href="{{ route('javascript') }}" class="btn-lesson">Xem bài học Javascript</a>
-            </div>
-        </div>
+        <header class="header">
+            <a href="{{ route('launcher') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Quay lại Trang chủ</a>
+            <h1><i class="fas fa-graduation-cap"></i> Chọn Chủ Đề Bài Học</h1>
+            <p>Bắt đầu hành trình lập trình của bạn bằng cách chọn một ngôn ngữ bên dưới.</p>
+        </header>
+
+        <main class="lesson-grid">
+            <a href="{{ route('python') }}" class="lesson-card python">
+                <div class="card-icon-container">
+                    <i class="fab fa-python card-icon"></i>
+                </div>
+                <div class="card-content">
+                    <h2>Python</h2>
+                    <p>Ngôn ngữ lập trình đa năng, dễ học cho người mới bắt đầu.</p>
+                </div>
+                <span class="btn-start">Bắt đầu học <i class="fas fa-chevron-right"></i></span>
+            </a>
+            <a href="{{ route('cpp') }}" class="lesson-card cpp">
+                <div class="card-icon-container">
+                    <i class="fab fa-cuttlefish card-icon"></i>
+                </div>
+                <div class="card-content">
+                    <h2>C++</h2>
+                    <p>Ngôn ngữ mạnh mẽ, hiệu suất cao cho phát triển game và hệ thống.</p>
+                </div>
+                <span class="btn-start">Bắt đầu học <i class="fas fa-chevron-right"></i></span>
+            </a>
+            <a href="{{ route('javascript') }}" class="lesson-card javascript">
+                <div class="card-icon-container">
+                    <i class="fab fa-js-square card-icon"></i>
+                </div>
+                <div class="card-content">
+                    <h2>Javascript</h2>
+                    <p>Ngôn ngữ của web, xây dựng các trang web tương tác và động.</p>
+                </div>
+                <span class="btn-start">Bắt đầu học <i class="fas fa-chevron-right"></i></span>
+            </a>
+        </main>
     </div>
-    <!-- hoặc dùng chung với admin: <script src="{{ asset('Adminlesson/Adminlesson.js') }}"></script> -->
 </body>
 </html>

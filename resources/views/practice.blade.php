@@ -1,49 +1,59 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thực hành lập trình C++</title>
-  <link rel="stylesheet" href="{{ asset('practice.css') }}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Trình biên dịch Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('practice.css') }}" />
 </head>
 <body>
-  <div class="container">
-    <div class="header-bar">
-      
+    <div class="compiler-container">
+        <header class="page-header">
+            <a href="{{ route('launcher') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Quay về trang chủ</a>
+            <h1><i class="fas fa-code"></i> Trình biên dịch Online</h1>
+        </header>
+
+        <main class="compiler-main">
+            <div class="compiler-panel">
+                <div class="panel-header">
+                    <div class="language-selector">
+                        <label for="languageSelect"><i class="fas fa-laptop-code"></i> Ngôn ngữ</label>
+                        <select id="languageSelect">
+                            <option value="python">Python</option>
+                            <option value="cpp">C++</option>
+                            <option value="javascript">JavaScript (Node.js)</option>
+                        </select>
+                    </div>
+                    <div class="panel-actions">
+                        <button id="runBtn" class="btn btn-run"><i class="fas fa-play"></i> Chạy (Ctrl+Enter)</button>
+                        <button id="clearBtn" class="btn btn-clear"><i class="fas fa-broom"></i> Xóa kết quả</button>
+                    </div>
+                </div>
+                <div class="code-area">
+                    <textarea
+                        id="codeEditor"
+                        spellcheck="false"
+                        placeholder="print('Hello, World!')"
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="output-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-terminal"></i> Kết quả</h3>
+                </div>
+                <div class="output-area-container">
+                    <pre id="outputArea"></pre>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <h1 class="page-title">Compiler</h1>
-    <div class="content">
-      <main class="exercise-detail">
-        <label for="codeEditor" class="section-title">Viết code:</label>
-        <label for="languageSelect" class="section-title">Chọn ngôn ngữ:</label>
-        <select id="languageSelect">
-          <option value="cpp">C++</option>
-          <option value="python">Python</option>
-          <option value="javascript">JavaScript</option>
-        </select>
-
-        <textarea
-          id="codeEditor"
-          spellcheck="false"
-          placeholder="write your code here..."
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-        ></textarea>
-
-        <div class="btn-row">
-          <button id="runBtn" class="btn run">▶ Chạy thử</button>
-          <button id="clearBtn" class="btn ghost">🧹 Xóa kết quả</button>
-        </div>
-
-        <h3 class="section-title">Kết quả:</h3>
-        <pre id="outputArea" class="output"></pre>
-        <a href="{{ route('launcher') }}" class="btn btn-secondary mt-3">Quay về trang chủ</a>
-      </main>
-    </div>
-  </div>
-
-  <script src="{{ asset('practice.js') }}"></script>
+    <script src="{{ asset('practice.js') }}"></script>
 </body>
 </html>

@@ -17,23 +17,33 @@ use App\Http\Controllers\QuizCppController;
 use App\Http\Controllers\QuizJavascriptController;
 use App\Http\Controllers\Admin\QuizCppController as AdminQuizCppController;
 use App\Http\Controllers\Admin\QuizJavascriptController as AdminQuizJavascriptController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
 
 
 Route::get('/', function () {
     return view('launcher');
 })->name('launcher');
 
-Route::get('/launcher', function () {
-    return view('launcher');
-}) -> name('launcher');
 
 
+// Đăng nhập
+Route::get('/login', [AuthController::class, 'showLoginForm'])
+    ->middleware('guest')
+    ->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('guest')
+    ->name('login');
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
-
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+// Đăng ký
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])
+    ->middleware('guest')
+    ->name('register.form');
+Route::post('/register', [AuthController::class, 'register'])
+    ->middleware('guest')
+    ->name('register');
 
 
 //Route::post('/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
@@ -124,3 +134,78 @@ Route::get('/choose-quiz', function () {
 Route::get('/choose-quiz-admin', function () {
     return view('admin.quizchoiceedit');
 })->name('admin.choose.quiz');
+
+
+/* --- Email verification routes --- */
+Route::get('/email/verify', fn() => view('verification.notice'))
+  ->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('launcher')->with('status','Email đã xác thực!');
+})->middleware(['auth','signed','throttle:6,1'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    if ($request->user()->hasVerifiedEmail()) {
+        return back()->with('status','Email đã xác thực.');
+    }
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status','Đã gửi lại email xác thực.');
+})->middleware(['auth','throttle:3,5'])->name('verification.send');
+
+
+// Password Reset Routes...
+
+// Hiển thị form nhập email
+Route::get('/forgot-password', function () {
+    return view('auth.password.email');
+})->middleware('guest')->name('password.request');
+
+// Xử lý gửi email reset
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+    $status = Password::sendResetLink($request->only('email'));
+    return $status == Password::RESET_LINK_SENT
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.email');
+
+// Hiển thị form đổi mật khẩu (từ link email)
+Route::get('/reset-password/{token}', function ($token, Request $request) {
+    $email = $request->query('email');
+    return view('auth.password.reset', ['token' => $token, 'email' => $email]);
+})->middleware('guest')->name('password.reset');
+
+// Xử lý đổi mật khẩu
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill(['password' => Hash::make($password)])->save();
+        }
+    );
+    return $status == Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.update');
+
+Route::middleware('auth')->get('/attempts', function () {
+    $attempts = \App\Models\QuizAttempt::where('user_id', auth()->id())
+        ->orderByDesc('created_at')
+        ->paginate(20);
+    return view('attempts.index', compact('attempts'));
+})->name('attempts.index');
+
+
+// Route để kiểm tra trạng thái xác thực email
+Route::get('/email/verification-status', function () {
+    if (auth()->user() && auth()->user()->hasVerifiedEmail()) {
+        return response()->json(['verified' => true]);
+    }
+    return response()->json(['verified' => false]);
+})->middleware('auth')->name('verification.status');

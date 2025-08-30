@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+:root {
+    --primary-color: #4a69bd;
+    --background-color: #f4f7fc;
+    --text-color: #555;
+    --card-background: #ffffff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+}
+
+.error-card {
+    background: var(--card-background);
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 100%;
+    transform: translateY(-20px);
+    animation: float-up 0.8s ease-out forwards;
+}
+
+@keyframes float-up {
+    to {
+        transform: translateY(0);
+    }
+}
+
+.error-code {
+    font-size: 120px;
+    font-weight: 900;
+    margin: 0;
+    color: var(--primary-color);
+    text-shadow: 4px 4px 0px #e0e0e0;
+}
+
+.error-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    font-size: 18px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-home:hover {
+    background-color: #3b569a;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+    .error-card {
+        padding: 30px 25px;
+    }
+    .error-code {
+        font-size: 80px;
+    }
+    .error-title {
+        font-size: 22px;
+    }
+    .error-message {
+        font-size: 16px;
+    }
+    .btn-home {
+        padding: 12px 25px;
+        font-size: 15px;
+    }
+}

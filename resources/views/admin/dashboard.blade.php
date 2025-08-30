@@ -1,47 +1,47 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hồ sơ cá nhân</title>
-  <link rel="stylesheet" href="{{ asset('admin/dashboard.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Người dùng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/admin.css') }}">
 </head>
 <body>
-  <!-- út đăng xuất -->
-   <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-        @csrf
-        <button type="submit" class="back-btn">Đăng xuất</button>
-    </form>
-    <a href="{{ route('admin.launcher') }}" class="back-btn">← Quay lại launcher</a>
-  <div class="profile-container">
-    <h1>Danh sách người dùng</h1>
+<div class="admin-container">
+    <div class="page-header">
+        <h1><i class="fas fa-users"></i> Quản lý Người dùng</h1>
+        <a href="{{ route('admin.launcher') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Quay lại</a>
+    </div>
+
     @if(isset($users) && count($users))
-        <table border="1" cellpadding="5" style="width:100%; text-align:center;">
+        <table class="content-table">
             <thead>
                 <tr>
                     <th>Avatar</th>
                     <th>Họ tên</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
-                    <th>Role</th>
-                    <th>Thao tác</th>
+                    <th>Vai trò</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
                 <tr>
                     <td>
-                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('images/default-avatar.png') }}" alt="Avatar" width="50">
+                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('images/default-avatar.png') }}" alt="Avatar" class="avatar-sm">
                     </td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone }}</td>
-                    <td>{{ $user->role }}</td>
+                    <td>{{ $user->phone ?? 'N/A' }}</td>
+                    <td>{{ ucfirst($user->role) }}</td>
                     <td>
-                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xóa</button>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa</button>
                         </form>
                     </td>
                 </tr>
@@ -52,6 +52,5 @@
         <p>Không có người dùng nào.</p>
     @endif
 </div>
-  <script src="{{asset('dashboard.js')}}"></script>
 </body>
 </html>

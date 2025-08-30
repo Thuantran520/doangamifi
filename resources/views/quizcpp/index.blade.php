@@ -6,10 +6,14 @@
     <title>Làm bài trắc nghiệm C++</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('quiz.css') }}">
 </head>
 <body>
-<div class="container py-4">
-    <h2 class="mb-4">Làm bài trắc nghiệm C++</h2>
+<div class="quiz-container">
+    <div class="quiz-header">
+        <h1><i class="fab fa-cuttlefish"></i> Trắc nghiệm C++</h1>
+    </div>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -23,9 +27,12 @@
         @csrf
 
         @foreach($items as $item)
-            <div class="card mb-3">
+            <div class="question-card">
+                <div class="card-header">
+                    Câu {{ $loop->iteration }}
+                </div>
                 <div class="card-body">
-                    <h5>Câu {{ $loop->iteration }}: {{ $item->question_text }}</h5>
+                    <p class="lead">{{ $item->question_text }}</p>
                     @php
                         $options = [
                             'a' => $item->option_a,
@@ -42,7 +49,7 @@
                                    id="q{{ $item->id }}-{{ $opt }}"
                                    value="{{ $opt }}">
                             <label class="form-check-label" for="q{{ $item->id }}-{{ $opt }}">
-                                <strong>{{ strtoupper($opt) }}.</strong> {{ $text }}
+                                {{ $text }}
                             </label>
                         </div>
                     @endforeach
@@ -50,13 +57,14 @@
             </div>
         @endforeach
 
-        <button class="btn btn-success" type="submit">Nộp bài</button>
+        <div class="quiz-footer">
+            <button class="btn btn-success btn-lg" type="submit">Nộp bài</button>
+            <a href="{{ route('launcher') }}" class="btn btn-secondary btn-lg mt-3 mt-sm-0"
+               onclick="return confirm('Bạn có chắc chắn muốn quay về? Mọi dữ liệu làm bài sẽ bị mất!');">
+                Quay về
+            </a>
+        </div>
     </form>
-
-    <a href="{{ route('launcher') }}" class="btn btn-secondary mt-3"
-       onclick="return confirm('Bạn có chắc chắn muốn quay về trang chủ? Mọi dữ liệu làm bài sẽ bị mất!');">
-        Quay về trang chủ
-    </a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

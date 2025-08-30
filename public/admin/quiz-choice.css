@@ -1,0 +1,32 @@
+/* Using styles from lesson.css as they are very similar */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.container { width: 90%; max-width: 1200px; margin: 0 auto; text-align: center; }
+.header { margin-bottom: 40px; position: relative; }
+.back-btn { position: absolute; top: 10px; left: 0; text-decoration: none; color: #555; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s ease; }
+.back-btn:hover { color: #000; }
+.header h1 { font-size: 2.5rem; color: #1c2a48; margin-bottom: 10px; }
+.header h1 i { margin-right: 10px; color: #3b82f6; }
+.header p { font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto; }
+.lesson-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.lesson-card { background-color: #fff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; border-top: 5px solid; display: flex; flex-direction: column; text-decoration: none; color: #333; }
+.lesson-card:hover { transform: translateY(-10px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); }
+.lesson-card h2 { font-size: 1.8rem; margin: 15px 0 10px; color: #1c2a48; }
+.lesson-card p { font-size: 1rem; color: #777; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; }
+.card-icon-container { width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto; }
+.card-icon { font-size: 3rem; color: #fff; }
+.lesson-card.python { border-color: #FFD43B; }
+.lesson-card.python .card-icon-container { background-color: #FFD43B; }
+.lesson-card.cpp { border-color: #007BCC; }
+.lesson-card.cpp .card-icon-container { background-color: #007BCC; }
+.lesson-card.javascript { border-color: #F7DF1E; }
+.lesson-card.javascript .card-icon-container { background-color: #F7DF1E; }
+.btn-manage { text-decoration: none; color: #fff; font-weight: bold; padding: 12px 25px; border-radius: 8px; transition: background-color 0.3s ease; align-self: center; margin-top: auto; background-color: #3b82f6; }
+.btn-manage:hover { background-color: #1e3a8a; }

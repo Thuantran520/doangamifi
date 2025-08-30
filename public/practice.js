@@ -1,78 +1,86 @@
-const editorEl = document.getElementById("codeEditor");
-const langSelectEl = document.getElementById("languageSelect");
-const outputEl = document.getElementById("outputArea");
-const runBtn   = document.getElementById("runBtn");
-const clearBtn = document.getElementById("clearBtn");
+document.addEventListener("DOMContentLoaded", function () {
+    const editorEl = document.getElementById("codeEditor");
+    const langSelectEl = document.getElementById("languageSelect");
+    const outputEl = document.getElementById("outputArea");
+    const runBtn = document.getElementById("runBtn");
+    const clearBtn = document.getElementById("clearBtn");
 
-/* ===================== RUN CODE VIA PISTON API ===================== */
-async function runCode(code, language) {
-  if (!code || !code.trim()) {
-    outputEl.textContent = "⚠️ Bạn chưa viết code nào.";
-    return;
-  }
-  outputEl.textContent = "⏳ Đang biên dịch và chạy...";
-  let version = "";
-  let filename = "main.txt";
-  if (language === "cpp") {
-    version = "10.2.0";
-    filename = "main.cpp";
-  } else if (language === "python") {
-    version = "3.10.0";
-    filename = "main.py";
-  } else if (language === "javascript") {
-    version = "18.15.0"; // Node.js mới nhất trên piston
-    filename = "main.js";
-  }
-  try {
-    const res = await fetch("https://emkc.org/api/v2/piston/execute", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        language,
-        version,
-        files: [{ name: filename, content: code }]
-      })
-    });
-    const data = await res.json();
-    if (data.run) {
-      let output = "";
-      if (data.run.stdout) output += data.run.stdout;
-      if (data.run.stderr) output += "\n⚠️ Lỗi:\n" + data.run.stderr;
-      if (!output.trim()) {
-        if (language === "javascript") {
-          output = "✅ Chạy thành công nhưng không có output.\n\nLưu ý: Chỉ các lệnh Node.js như console.log mới hiển thị kết quả.";
-        } else {
-          output = "✅ Chạy thành công nhưng không có output.";
+    /* ===================== RUN CODE VIA PISTON API ===================== */
+    async function runCode(code, language) {
+        if (!code || !code.trim()) {
+            outputEl.style.color = '#dc3545';
+            outputEl.textContent = "⚠️ Lỗi: Bạn chưa viết mã nguồn để thực thi.";
+            return;
         }
-      }
-      outputEl.textContent = output;
-    } else {
-      outputEl.textContent = "❌ Không nhận được kết quả.";
+        outputEl.style.color = '#6c757d';
+        outputEl.textContent = "⏳ Đang biên dịch và chạy...";
+        
+        let version = "";
+        // Piston API versions
+        const versions = {
+            python: "3.10.0",
+            cpp: "10.2.0",
+            javascript: "18.15.0"
+        };
+        version = versions[language] || "latest";
+
+        try {
+            const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    language: language,
+                    version: version,
+                    files: [{ content: code }]
+                })
+            });
+            const data = await response.json();
+
+            if (data.run && data.run.stdout) {
+                outputEl.style.color = '#212529';
+                outputEl.textContent = data.run.stdout;
+            } else if (data.run && data.run.stderr) {
+                outputEl.style.color = '#dc3545';
+                outputEl.textContent = `⚠️ Lỗi:\n${data.run.stderr}`;
+            } else {
+                outputEl.style.color = '#212529';
+                outputEl.textContent = "✅ Chạy thành công nhưng không có kết quả đầu ra.";
+            }
+        } catch (err) {
+            outputEl.style.color = '#dc3545';
+            outputEl.textContent = `🚨 Lỗi kết nối đến API: ${err.message}`;
+        }
     }
-  } catch (err) {
-    outputEl.textContent = "🚨 Lỗi kết nối API: " + err.message;
-  }
-}
 
-/* ===================== EVENTS ===================== */
-runBtn.addEventListener("click", () => runCode(editorEl.value, langSelectEl.value));
-clearBtn.addEventListener("click", () => { outputEl.textContent = ""; });
+    /* ===================== EVENTS ===================== */
+    runBtn.addEventListener("click", () => runCode(editorEl.value, langSelectEl.value));
+    clearBtn.addEventListener("click", () => { outputEl.textContent = ""; });
 
-editorEl.addEventListener("keydown", (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-    e.preventDefault();
-    runCode(editorEl.value, langSelectEl.value);
-  }
-});
+    editorEl.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+            e.preventDefault();
+            runBtn.click(); // Simulate a click on the run button
+        }
+    });
 
-// Đổi placeholder khi chọn ngôn ngữ
-const placeholders = {
-  cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, World!";\n    return 0;\n}`,
-  python: `print("Hello, World!")`,
-  javascript: `// Chỉ dùng lệnh Node.js\nconsole.log("Hello, World!");`
-};
-langSelectEl.addEventListener("change", () => {
-  editorEl.placeholder = placeholders[langSelectEl.value] || "";
-  editorEl.value = "";
-  outputEl.textContent = "";
+    // Change placeholder and clear editor when language changes
+    const placeholders = {
+        python: `print("Hello, World!")`,
+        cpp: `#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!";\n    return 0;\n}`,
+        javascript: `// Chỉ dùng lệnh Node.js\nconsole.log("Hello, World!");`
+    };
+
+    function updateEditorForLanguage(language) {
+        editorEl.placeholder = placeholders[language] || "";
+        // Optional: clear editor on language change
+        // editorEl.value = ""; 
+        // outputEl.textContent = "";
+    }
+
+    langSelectEl.addEventListener("change", () => {
+        updateEditorForLanguage(langSelectEl.value);
+    });
+
+    // Set initial placeholder
+    updateEditorForLanguage(langSelectEl.value);
 });

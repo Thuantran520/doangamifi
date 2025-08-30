@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\QuizCpp;
+use App\Models\QuizAttempt;
 
 class QuizCppController extends Controller
 {
@@ -133,6 +134,18 @@ class QuizCppController extends Controller
                 'selected' => $selected,
             ];
         }
+
+        $maxScore = $total; // assuming each question is worth 1 point
+
+        $attempt = QuizAttempt::create([
+            'user_id' => auth()->id(),
+            'quiz_type' => 'quizpython', // thay tương ứng controller
+            'quiz_id' => $quiz->id ?? null, // nếu có id bài
+            'answers' => $answers, // array hoặc map question_id => answer
+            'score' => $score,
+            'max_score' => $maxScore,
+            'passed' => ($score >= ($maxScore * 0.5)), // ví dụ điều kiện pass 50%
+        ]);
 
         return view('quizcpp.submit', compact('score', 'total', 'results'));
     }

@@ -1,33 +1,44 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách bài học</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài học Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('lesson.css') }}">
 </head>
 <body>
-    <button class="back-btn" onclick="window.history.back()">← Quay lại</button>
-    <div class="lesson-header">
-        <h1>Danh sách bài học</h1>
-    </div>
-    <div class="lesson-list">
-        @foreach($python as $lesson)
-            <div class="lesson-item accordion">
-                <div class="accordion-header">
-                    <h2>{{ $lesson->title }}</h2>
-                    <div class="lesson-topic">{{ $lesson->topic ?? 'N/A' }}</div>
-                     <button class="btn-viewed" style="margin-left:12px;">Đánh dấu đã xem</button>
-                </div>
-                <div class="accordion-content" style="display:none;">
-                    <p>{{ $lesson->content ?: 'Chưa có nội dung cho bài học này.' }}</p>
-                    @if(!empty($lesson->example))
-                        <div class="lesson-meta">
-                            <span><strong>Ví dụ:</strong> {{ $lesson->example }}</span>
+    <div class="lesson-page-container">
+        <header class="page-header">
+            <a href="{{ route('lesson') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Quay lại chọn chủ đề</a>
+            <h1><i class="fab fa-python"></i> Bài học Python</h1>
+        </header>
+
+        <div class="lesson-list">
+            @forelse($python as $lesson)
+                <div class="lesson-item accordion" data-lesson-id="python-{{ $lesson->lesson_id }}">
+                    <div class="accordion-header">
+                        <h3>{{ $lesson->title }}</h3>
+                        <div class="header-controls">
+                            <button class="btn-viewed"><i class="fas fa-check"></i> Đã xem</button>
+                            <i class="fas fa-chevron-down expand-icon"></i>
                         </div>
-                    @endif
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-inner">
+                            {{-- Sử dụng nl2br để chuyển các ký tự xuống dòng thành thẻ <br> --}}
+                            <p>{!! nl2br(e($lesson->content)) !!}</p>
+                            @if(!empty($lesson->example))
+                                <pre><code>{{ $lesson->example }}</code></pre>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @empty
+                <p class="empty-message">Chưa có bài học nào cho chủ đề này.</p>
+            @endforelse
+        </div>
     </div>
     <script src="{{ asset('lesson.js') }}"></script>
 </body>

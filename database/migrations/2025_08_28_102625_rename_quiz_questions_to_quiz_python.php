@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('quiz_questions', 'quiz_python');
+        // Chỉ đổi tên nếu bảng 'quiz_questions' tồn tại
+        // và bảng 'quiz_python' chưa tồn tại.
+        if (Schema::hasTable('quiz_questions') && !Schema::hasTable('quiz_python')) {
+            Schema::rename('quiz_questions', 'quiz_python');
+        }
     }
 
     /**
@@ -19,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('quiz_python', 'quiz_questions');
+        // Chỉ đổi tên ngược lại nếu bảng 'quiz_python' tồn tại.
+        if (Schema::hasTable('quiz_python') && !Schema::hasTable('quiz_questions')) {
+            Schema::rename('quiz_python', 'quiz_questions');
+        }
     }
 };

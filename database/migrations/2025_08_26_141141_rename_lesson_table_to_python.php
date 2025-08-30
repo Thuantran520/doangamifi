@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('lessons', 'python');
+        // Chỉ đổi tên nếu bảng 'lessons' tồn tại và bảng 'python' chưa tồn tại.
+        if (Schema::hasTable('lessons') && !Schema::hasTable('python')) {
+            Schema::rename('lessons', 'python');
+        }
     }
 
     /**
@@ -19,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('python', 'lessons');
+        // Chỉ đổi tên ngược lại nếu bảng 'python' tồn tại và bảng 'lessons' chưa tồn tại.
+        if (Schema::hasTable('python') && !Schema::hasTable('lessons')) {
+            Schema::rename('python', 'lessons');
+        }
     }
 };

@@ -3,14 +3,21 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Không tìm thấy trang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('error.css') }}">
 </head>
 <body>
-<div class="container text-center mt-5">
-    <h1 class="display-4 text-danger">404</h1>
-    <p class="lead">Xin lỗi, trang bạn yêu cầu không tồn tại.</p>
-    <a href="{{ route('launcher') }}" class="btn btn-primary">Trang chủ</a>
-</div>
+    <div class="error-container">
+        <div class="error-card">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">Không tìm thấy trang</h2>
+            <p class="error-message">Rất tiếc, trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.</p>
+            <a href="{{ route('launcher') }}" class="btn-home">
+                <i class="fas fa-home"></i>
+                <span>Về trang chủ</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

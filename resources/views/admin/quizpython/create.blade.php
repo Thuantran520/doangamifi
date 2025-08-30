@@ -1,4 +1,3 @@
-{{-- filepath: resources/views/admin/quiz/create.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>

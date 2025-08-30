@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\QuizJavascript;
+use App\Models\QuizAttempt;
 
 class QuizJavascriptController extends Controller
 {
@@ -130,6 +131,19 @@ class QuizJavascriptController extends Controller
                 'selected' => $selected,
             ];
         }
+
+        $maxScore = $total; // Assuming each question carries 1 mark
+        $passed = ($score >= ($maxScore * 0.5)) ? true : false;
+
+        $attempt = QuizAttempt::create([
+            'user_id' => auth()->id(),
+            'quiz_type' => 'quizjavascript',
+            'quiz_id' => null,
+            'answers' => $answers,
+            'score' => $score,
+            'max_score' => $maxScore,
+            'passed' => $passed,
+        ]);
 
         return view('quizjavascript.submit', compact('score', 'total', 'results'));
     }
