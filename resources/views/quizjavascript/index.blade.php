@@ -64,8 +64,8 @@
         <div class="quiz-footer">
             <button class="btn btn-success btn-lg" type="submit">Nộp bài</button>
             <a href="{{ route('launcher') }}" class="btn btn-secondary btn-lg mt-3 mt-sm-0"
-               onclick="return confirm('Bạn có chắc chắn muốn quay về? Mọi dữ liệu làm bài sẽ bị mất!');">
-                Quay về
+               onclick="return confirm('Bạn có chắc chắn muốn hủy? Mọi dữ liệu làm bài sẽ bị mất!');">
+                Hủy
             </a>
         </div>
     </form>
