@@ -27,10 +27,12 @@ class UserDashboardController extends Controller
         $request -> validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $user->name =$request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }

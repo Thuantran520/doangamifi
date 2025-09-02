@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -7,6 +6,10 @@
   <title>Hồ sơ cá nhân</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('dashboard.css') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
   <div class="profile-page">
@@ -23,7 +26,7 @@
                 <div class="profile-body">
                     <div class="avatar-section">
                         <img id="avatarPreview" src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('images/default-avatar.png') }}" alt="Ảnh đại diện">
-                        <label for="avatarInput" class="avatar-edit-button">
+                        <label for="avatarInput" class="avatar-edit-button hidden">
                             <i class="fas fa-camera"></i>
                         </label>
                         <input type="file" name="avatar" id="avatarInput" accept="image/*" class="hidden">

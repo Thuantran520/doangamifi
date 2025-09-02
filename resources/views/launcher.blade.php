@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gamification - Học lập trình qua thử thách</title>
   <link rel="stylesheet" href="{{asset('launcher.css')}}">
-  <!-- Thêm Font Awesome để có icon đẹp -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
   <!-- Header -->
@@ -34,6 +37,7 @@
         <ul id="dropdownMenu" class="dropdown hidden">
           @if(Auth::check() && Auth::user()->role === 'admin')
             <li><a href="{{route('admin.launcher')}}">Quản lý người dùng</a></li>
+            <li><a href="{{route('dashboard')}}">Thông tin người dùng</a></li>
           @else
             <li><a href="{{route('dashboard')}}">Hồ sơ cá nhân</a></li>
             <li><a href="{{route('attempts.index')}}">Lịch sử làm bài</a></li>

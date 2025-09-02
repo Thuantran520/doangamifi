@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const editBtn = document.getElementById("editBtn");
   const saveBtn = document.getElementById("saveBtn");
   const cancelBtn = document.getElementById("cancelBtn");
+  const avatarEditBtn = document.querySelector('.avatar-edit-button');
 
   // Các phần tử hiển thị (thẻ <p>)
   const nameDisplay = document.getElementById("nameDisplay");
@@ -57,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     nameInput.value = originalValues.name;
     emailInput.value = originalValues.email;
     phoneInput.value = originalValues.phone;
+    avatarEditBtn.classList.remove("hidden");
 
     // Chuyển sang chế độ chỉnh sửa
     toggleEditMode(true);
@@ -68,6 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
     avatarPreview.src = tempAvatarSrc;
     // Xóa file đã chọn (nếu có)
     avatarInput.value = ""; 
+
+    avatarEditBtn.classList.add("hidden");
 
     // Thoát khỏi chế độ chỉnh sửa
     toggleEditMode(false);
