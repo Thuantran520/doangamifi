@@ -127,4 +127,6 @@ Mọi đóng góp để cải thiện dự án đều được chào đón! Vui 
 5.  Mở một Pull Request
 
 ## 📄 Giấy phép
-Đây là dự án dành cho học tập và nghiên cứu. Vui lòng không sử dụng cho mục đích thương mại.
+Dự án này được cấp phép theo **MIT License**.  
+Bạn có thể sử dụng, chỉnh sửa, phân phối lại cho mục đích học tập, nghiên cứu hoặc thương mại.  
+Xem chi tiết tại tệp [LICENSE](LICENSE).
