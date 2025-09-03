@@ -18,7 +18,7 @@
     <nav class="nav-links">
       @auth
       <a href="{{ route('lesson') }}">Nội dung bài học</a>
-      <a href="{{ route('practice') }}">Các bài thực hành</a>
+      <a href="{{ route('practice') }}">Thực hành</a>
       <a href="{{ route('choose.quiz') }}">Bài trắc nghiệm</a>
       @endauth
     </nav>
