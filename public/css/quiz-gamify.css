@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.quiz-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quiz-header h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.quiz-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-size: 1.1rem;
+}
+
+.progress {
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+    background-color: #4CAF50;
+    transition: width 0.4s ease;
+}
+
+.question-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.question-card:hover {
+    transform: translateY(-5px);
+}
+
+.form-check-label {
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.form-check-input {
+    display: none;
+}
+
+.form-check-input:checked + .form-check-label {
+    background-color: rgba(76, 175, 80, 0.5);
+    font-weight: bold;
+}
+
+.quiz-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-submit, .btn-cancel {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}

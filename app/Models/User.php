@@ -45,4 +45,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmailNotification());
     }
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+    public function score()
+    {
+        return $this->hasOne(Score::class);
+    }
+    /**
+     * Lấy tất cả lịch sử làm bài của người dùng.
+     * THÊM HÀM NÀY VÀO
+     */
+    public function quizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class)->orderBy('created_at', 'desc');
+    }
 }

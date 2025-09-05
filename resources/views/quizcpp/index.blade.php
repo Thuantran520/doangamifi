@@ -29,6 +29,7 @@
 
     <form method="POST" action="{{ route('quizcpp.submit') }}">
         @csrf
+        <input type="hidden" name="question_ids" value="{{ $items->pluck('id')->implode(',') }}">
 
         @foreach($items as $item)
             <div class="question-card">

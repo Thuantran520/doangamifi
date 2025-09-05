@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\QuizCpp;
 use App\Models\QuizAttempt;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Score;
+use App\Models\Badge; // <-- THÊM DÒNG NÀY
 
 class QuizCppController extends Controller
 {
@@ -112,41 +115,75 @@ class QuizCppController extends Controller
      */
     public function submit(Request $request)
     {
+        // --- Lấy dữ liệu & Chấm điểm ---
         $answers = $request->input('answers', []);
-        $questions = QuizCpp::whereIn('id', array_keys($answers))->get();
+        $allQuestionIds = explode(',', $request->input('question_ids'));
+        $totalQuestions = count($allQuestionIds);
+        $questions = QuizCpp::whereIn('id', $allQuestionIds)->get();
 
-        $score = 0;
-        $total = $questions->count();
+        $correctAnswersCount = 0;
+        foreach ($questions as $question) {
+            if (isset($answers[$question->id]) && $answers[$question->id] === $question->correct_answer) {
+                $correctAnswersCount++;
+            }
+        }
+        $score = $correctAnswersCount * 10;
+        $max_score = $totalQuestions * 10;
+
+        // --- Lưu điểm, lịch sử và HUY HIỆU ---
+        $user = Auth::user();
+        $newBadges = []; // Khởi tạo mảng huy hiệu mới
+        if ($user) {
+            // Cộng dồn tổng điểm
+            $userScore = Score::firstOrCreate(['user_id' => $user->id]);
+            $userScore->score += $score;
+            $userScore->save();
+
+            // Lưu lịch sử lần làm bài này
+            QuizAttempt::create([
+                'user_id'   => $user->id,
+                'quiz_type' => 'c++',
+                'score'     => $score,
+                'max_score' => $max_score,
+                'answers'   => $answers,
+                'passed'    => ($score >= $max_score / 2),
+            ]);
+
+            // === BỔ SUNG PHẦN LƯU HUY HIỆU ===
+            if ($userScore->score >= 100 && !$user->badges()->where('name', 'Tân Binh')->exists()) {
+                $badge = Badge::where('name', 'Tân Binh')->first();
+                if ($badge) {
+                    $user->badges()->attach($badge->id);
+                    $newBadges[] = $badge;
+                }
+            }
+            if ($userScore->score >= 1000 && !$user->badges()->where('name', 'Chuyên Gia')->exists()) {
+                $badge = Badge::where('name', 'Chuyên Gia')->first();
+                if ($badge) {
+                    $user->badges()->attach($badge->id);
+                    $newBadges[] = $badge;
+                }
+            }
+            // ===================================
+        }
+
+        // --- Chuẩn bị dữ liệu chi tiết để hiển thị ---
         $results = [];
-
-        foreach ($questions as $q) {
-            $selected = $answers[$q->id] ?? null;
-            if ($selected == $q->correct_answer) $score++;
+        foreach ($questions as $question) {
             $results[] = [
-                'question_text' => $q->question_text,
-                'options' => [
-                    'a' => $q->option_a,
-                    'b' => $q->option_b,
-                    'c' => $q->option_c,
-                    'd' => $q->option_d,
-                ],
-                'correct_answer' => $q->correct_answer,
-                'selected' => $selected,
+                'question_text'  => $question->question_text,
+                'options'        => ['a' => $question->option_a, 'b' => $question->option_b, 'c' => $question->option_c, 'd' => $question->option_d],
+                'correct_answer' => $question->correct_answer,
+                'selected'       => $answers[$question->id] ?? null,
             ];
         }
 
-        $maxScore = $total; // assuming each question is worth 1 point
-
-        $attempt = QuizAttempt::create([
-            'user_id' => auth()->id(),
-            'quiz_type' => 'quizpython', // thay tương ứng controller
-            'quiz_id' => $quiz->id ?? null, // nếu có id bài
-            'answers' => $answers, // array hoặc map question_id => answer
-            'score' => $score,
-            'max_score' => $maxScore,
-            'passed' => ($score >= ($maxScore * 0.5)), // ví dụ điều kiện pass 50%
+        // --- Trả về view kết quả chi tiết ---
+        return view('quizcpp.submit', [
+            'score'   => $score,
+            'total'   => $max_score,
+            'results' => $results,
+            'newBadges' => $newBadges, // Gửi huy hiệu mới nhận được sang view
         ]);
-
-        return view('quizcpp.submit', compact('score', 'total', 'results'));
     }
 }

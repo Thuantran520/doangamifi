@@ -21,6 +21,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\LeaderboardController;
 
 
 Route::get('/', function () {
@@ -209,3 +211,10 @@ Route::get('/email/verification-status', function () {
     }
     return response()->json(['verified' => false]);
 })->middleware('auth')->name('verification.status');
+
+Route::post('/game/complete', [GameController::class, 'completeChallenge'])->name('game.complete');
+Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
+Route::get('/game/robot-control', [GameController::class, 'robotControl'])->name('game.robot');
+Route::post('/game/robot/add-score', [GameController::class, 'addRobotScore'])->name('game.robot.addscore');
+Route::get('/game/sort-challenge', [GameController::class, 'sortChallenge'])->name('game.sort');
+Route::post('/game/sort-challenge/submit', [GameController::class, 'submitSortChallenge'])->name('game.sort.submit');

@@ -33,11 +33,11 @@
                 <tr>
                     <td>{{ $a->created_at->format('d/m/Y H:i') }}</td>
                     <td>
-                        @if($a->quiz_type == 'Python')
+                        @if(strtolower($a->quiz_type) == 'python')
                             <span class="quiz-badge python"><i class="fab fa-python"></i> Python</span>
-                        @elseif($a->quiz_type == 'C++')
+                        @elseif(strtolower($a->quiz_type) == 'c++')
                             <span class="quiz-badge cpp"><i class="fab fa-cuttlefish"></i> C++</span>
-                        @elseif($a->quiz_type == 'Javascript')
+                        @elseif(strtolower($a->quiz_type) == 'javascript')
                             <span class="quiz-badge javascript"><i class="fab fa-js-square"></i> Javascript</span>
                         @else
                             {{ $a->quiz_type }}

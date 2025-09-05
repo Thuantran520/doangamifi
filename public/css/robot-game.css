@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Source+Code+Pro&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: auto;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-back {
+    background-color: #eef;
+    color: #557;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+#game-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    border: 2px solid #ddd;
+    aspect-ratio: 1 / 1;
+}
+
+.grid-cell {
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+}
+
+.robot {
+    transition: transform 0.3s ease;
+}
+
+#code-editor {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.editor-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+#run-btn, #reset-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#run-btn { background-color: #4CAF50; color: white; }
+#reset-btn { background-color: #f44336; color: white; }
+
+#message-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message-success { background-color: #d4edda; color: #155724; }
+.message-error { background-color: #f8d7da; color: #721c24; }
+
+/* CSS cho chướng ngại vật */
+.obstacle {
+    background-color: #334155; /* Màu xám đậm */
+    border-radius: 4px;
+}
+
+/* CSS cho nút bị vô hiệu hóa */
+#run-btn:disabled, #reset-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* CSS cho phần chọn màn chơi */
+.level-selector-container {
+    margin-bottom: 20px;
+}
+.level-selector-container label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+#level-selector {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* CSS cho hiển thị điểm */
+.score-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #fffbe6; /* Màu nền vàng nhạt */
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #ffe58f; /* Viền vàng */
+}
+
+.score-container .fa-star {
+    color: #facc15; /* Màu vàng của ngôi sao */
+}
+
+/* Accordion Styles */
+.instructions-container {
+    margin-bottom: 15px;
+}
+
+.instruction-item {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.accordion-toggle {
+    background-color: #f7f7f7;
+    color: #333;
+    cursor: pointer;
+    padding: 12px 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.accordion-toggle:hover, .accordion-toggle.active {
+    background-color: #e9e9e9;
+}
+
+.accordion-toggle .fa-chevron-down {
+    transition: transform 0.3s;
+    font-size: 14px;
+}
+
+.accordion-toggle.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.accordion-content ul {
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.accordion-content li {
+    margin-bottom: 8px;
+}
+
+.accordion-content code {
+    background-color: #eef;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    padding: 20px;
+}
+
+.leaderboard-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #764ba2;
+    font-size: 2rem;
+}
+
+.btn-back {
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #e0e0e0;
+}
+
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content-table thead tr {
+    background-color: #f8f9fa;
+    color: #764ba2;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Căn lề phải cho tiêu đề cột "Điểm" */
+.content-table thead th:last-child {
+    text-align: right;
+}
+
+.content-table th, .content-table td {
+    padding: 15px 20px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.content-table tbody tr:hover {
+    background-color: #f9f6ff;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+.rank {
+    font-weight: 700;
+    font-size: 1.4em;
+    color: #ff9800;
+    width: 15%;
+    text-align: center;
+}
+
+.player img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 15px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+/* Căn lề phải cho cột điểm số (giữ nguyên) */
+.score {
+    font-weight: 700;
+    font-size: 1.2em;
+    text-align: right;
+    width: 25%;
+}
+
+.current-user {
+    background-color: #e8dff5 !important;
+    font-weight: bold;
+    border-left: 5px solid #764ba2;
+}
+
+.pagination-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

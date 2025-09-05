@@ -48,6 +48,12 @@ body {
   text-align: center;
 }
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Khoảng cách giữa các card */
+}
+
 .profile-card {
     background-color: #fff;
     border-radius: 12px;
@@ -188,4 +194,103 @@ body {
     padding-top: 20px;
     border-top: 1px solid #e9ecef;
     text-align: right;
+}
+
+/* CSS cho các thành phần Gamification */
+.gamification-stats {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Chia cột cho điểm và huy hiệu */
+    gap: 25px;
+}
+
+.stat-card, .recent-activity-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    color: #333;
+}
+
+.stat-card h3, .recent-activity-card h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: #555;
+}
+
+.total-score {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #6a11cb;
+    text-align: center;
+    line-height: 1;
+}
+
+.badges-collection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 80px; /* Giữ chiều cao tối thiểu nếu chưa có huy hiệu */
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+}
+
+.badge-item img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+}
+
+.badge-item:hover img {
+    transform: scale(1.15);
+}
+
+.badge-item span {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.no-items {
+    width: 100%;
+    text-align: center;
+    color: #999;
+}
+
+.recent-activity-card .list-group {
+    padding-left: 0;
+    list-style: none;
+}
+
+.recent-activity-card .list-group-item {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 5px;
+    font-size: 0.95rem;
+}
+
+.recent-activity-card .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.recent-activity-card .float-end {
+    float: right;
+}
+
+.recent-activity-card .btn-light {
+    background-color: #f0f0f0;
+    border: none;
 }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,6 +28,7 @@
 
     <form method="POST" action="{{ route('quizjavascript.submit') }}">
         @csrf
+        <input type="hidden" name="question_ids" value="{{ $items->pluck('id')->implode(',') }}">
 
         @foreach($items as $item)
             <div class="question-card">

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,35 +28,22 @@
 
     <form method="POST" action="{{ route('quizpython.submit') }}">
         @csrf
+        <input type="hidden" name="question_ids" value="{{ $items->pluck('id')->implode(',') }}">
 
         @foreach($items as $item)
             <div class="question-card">
-                <div class="card-header">
-                    Câu {{ $loop->iteration }}
-                </div>
-                <div class="card-body">
-                    <p class="lead">{{ $item->question_text }}</p>
-                    @php
-                        $options = [
-                            'a' => $item->option_a,
-                            'b' => $item->option_b,
-                            'c' => $item->option_c,
-                            'd' => $item->option_d,
-                        ];
-                    @endphp
-                    @foreach($options as $opt => $text)
-                        <div class="form-check">
-                            <input class="form-check-input"
-                                   type="radio"
-                                   name="answers[{{ $item->id }}]"
-                                   id="q{{ $item->id }}-{{ $opt }}"
-                                   value="{{ $opt }}">
-                            <label class="form-check-label" for="q{{ $item->id }}-{{ $opt }}">
-                                {{ $text }}
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
+                <p class="lead"><strong>Câu {{ $loop->iteration }}:</strong> {{ $item->question_text }}</p>
+                @php
+                    $options = ['a' => $item->option_a, 'b' => $item->option_b, 'c' => $item->option_c, 'd' => $item->option_d];
+                @endphp
+                @foreach($options as $opt => $text)
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answers[{{ $item->id }}]" id="q{{ $item->id }}-{{ $opt }}" value="{{ $opt }}">
+                        <label class="form-check-label" for="q{{ $item->id }}-{{ $opt }}">
+                            {{ $text }}
+                        </label>
+                    </div>
+                @endforeach
             </div>
         @endforeach
 
